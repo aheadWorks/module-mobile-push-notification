@@ -73,7 +73,7 @@ class Edit extends Container
 
     /**
      * Retrieve text for header element depending on loaded news
-     * 
+     *
      * @return string
      */
     public function getHeaderText()

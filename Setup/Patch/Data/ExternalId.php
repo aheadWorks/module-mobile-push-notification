@@ -84,7 +84,7 @@ class ExternalId implements DataPatchInterface
     {
         $this->moduleDataSetup->getConnection()->startSetup();
 
-        try{
+        try {
             $this->customerSetup->addAttribute(
                 CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                 'aw_mobile_device_token',
@@ -110,10 +110,11 @@ class ExternalId implements DataPatchInterface
                 'aw_mobile_device_token'
             );
 
-            $attribute = $this->customerSetup->getEavConfig()->getAttribute(CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER, 'aw_mobile_device_token');
+            $attribute = $this->customerSetup->getEavConfig()
+            ->getAttribute(CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER, 'aw_mobile_device_token');
             $this->attributeResource->save($attribute);
 
-        }catch(Exception $e){
+        } catch (Exception $e) {
             $this->logger->err($e->getMessage());
         }
 

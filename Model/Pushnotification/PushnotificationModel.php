@@ -48,7 +48,7 @@ class PushnotificationModel
         Curl $curl,
         ScopeConfigInterface $scopeConfig,
         DevicetokenFactory $devicetokenFactory
-    ){
+    ) {
         $this->customerFactory = $customerFactory;
         $this->curl = $curl;
         $this->scopeConfig = $scopeConfig;
@@ -57,26 +57,28 @@ class PushnotificationModel
 
     public function sendNotification($messageTitle, $message, $pushnotificationImg)
     {
-        $registrationIds = array();
+        $registrationIds = [];
         $sendResponse = null;
-        $customerObj = $this->customerFactory->create()->getCollection()->addAttributeToSelect("*")->addAttributeToFilter("aw_mobile_device_token", array("neq" => null))->load();
+        $customerObj = $this->customerFactory->create()->getCollection()->addAttributeToSelect("*")
+        ->addAttributeToFilter("aw_mobile_device_token", ["neq" => null])->load();
 
-        if(!empty($customerObj->getData())){
+        if (!empty($customerObj->getData())) {
             foreach ($customerObj->getData() as $customerObjvalue) {
-                if(isset($customerObjvalue['aw_mobile_device_token']) && !empty($customerObjvalue['aw_mobile_device_token'])){
-                    $registrationIds[] = $customerObjvalue['aw_mobile_device_token'];
+                if (isset($customerObjvalue['aw_mobile_device_token'])
+                    && !empty($customerObjvalue['aw_mobile_device_token'])) {
+                        $registrationIds[] = $customerObjvalue['aw_mobile_device_token'];
                 }
             }
         }
 
         $devicetokenCollection = $this->devicetokenFactory->create()->getCollection();
-        foreach($devicetokenCollection as $devicetokenValue){
-            if(isset($devicetokenValue['device_token']) && !empty($devicetokenValue['device_token'])){
+        foreach ($devicetokenCollection as $devicetokenValue) {
+            if (isset($devicetokenValue['device_token']) && !empty($devicetokenValue['device_token'])) {
                 $registrationIds[] = $devicetokenValue['device_token'];
             }
         }
         $registrationUniqueIds = array_values(array_unique($registrationIds));
-        if(!empty($registrationIds)){
+        if (!empty($registrationIds)) {
             $msg = [
                 'title' => $messageTitle,
                 'body' =>  $message,
@@ -94,25 +96,25 @@ class PushnotificationModel
             $firebaseApiKey = $this->scopeConfig->getValue('aw_mpn/aw_mpn_setting/firebase_api_key');
             $authorization = "Key=$firebaseApiKey";
 
-            try{
+            try {
                 $this->curl->addHeader("Content-Type", "application/json");
-                $this->curl->addHeader("Authorization",$authorization);
+                $this->curl->addHeader("Authorization", $authorization);
                 $this->curl->post(self::DEFAULT_API_URL, json_encode($payload));
                 $responseCode = $this->curl->getStatus();
                 $response = $this->curl->getBody();
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 throw new InputException(__('Error while sending push notification'));
             }
 
-            if($responseCode == 200) {
+            if ($responseCode == 200) {
                 $sendResponse = "success";
-            }else {
+            } else {
                 $sendResponse = "failure";
             }
 
             return $sendResponse;
 
-        }else{
+        } else {
 
             return $sendResponse;
         }

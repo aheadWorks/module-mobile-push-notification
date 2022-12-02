@@ -41,9 +41,7 @@ class CheckDeviceToken
             $devicetokenModel = $this->devicetokenFactory->create();
             $devicetokenModel->setData($data);
             $devicetokenModel->save($data);
-             $response = [
-            	'message' =>  "Device token has successfully save."
-        	];
+            $response = ['message' =>  "Device token has successfully save."];
         } catch (LocalizedException $e) {
             throw new GraphQlInputException(__($e->getMessage()));
         }
@@ -59,11 +57,10 @@ class CheckDeviceToken
      */
     private function vaildateData(array $data = null)
     {
-        if (empty($data['customer_id']) && empty($data['device_id'])){
+        if (empty($data['customer_id']) && empty($data['device_id'])) {
             throw new LocalizedException(__('Must be set customer id or device id'));
-        }elseif (!isset($data['device_token'])){
-        	throw new LocalizedException(__('Must be set device token'));
+        } elseif (!isset($data['device_token'])) {
+            throw new LocalizedException(__('Must be set device token'));
         }
     }
 }
-

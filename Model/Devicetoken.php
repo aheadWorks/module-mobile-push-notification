@@ -18,5 +18,3 @@ class Devicetoken extends AbstractModel
         $this->_init('Aheadworks\MobilePushNotification\Model\ResourceModel\Devicetoken');
     }
 }
-
-
