@@ -1,0 +1,21 @@
+type Customer {    
+    aw_mobile_device_token: String @doc(description: "Customer aw mobile device token")
+}
+
+input CustomerInput {
+  aw_mobile_device_token: String @doc(description: "Aw mobile device token value")
+}
+
+type Mutation {
+    awMobileDeviceToken(input: DeviceTokenInput!): DeviceTokenOutput @resolver(class: "\\Aheadworks\\MobilePushNotification\\Model\\Resolver\\SetAwMobileDeviceToken") @doc(description:"Aw mobile device token.")
+}
+
+input DeviceTokenInput {
+    customer_id: String @doc(description: "The customer's id")
+    device_id: String @doc(description: "The device's id")
+    device_token: String @doc(description: "The device token")
+}
+
+type DeviceTokenOutput {
+   message: String @doc(description: "Message")
+}

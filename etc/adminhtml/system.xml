@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="aheadworks" translate="label" sortOrder="300">
+            <label>Aheadworks Extension</label>
+        </tab>
+        <section id="aw_mpn" translate="label" type="text" sortOrder="145" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Push Notification</label>
+            <tab>aheadworks</tab>
+            <resource>Aheadworks_MobilePushNotification::config_aw_mpn</resource>
+            <group id="aw_mpn_setting" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Push Notification</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Notification</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sender_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sender ID</label>
+                </field>
+                <field id="firebase_api_key" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Firebase API Key</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
