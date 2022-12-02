@@ -1,12 +1,12 @@
 <?php
 
-namespace Aheadworks\MobilePushNotification\Model\Resource;
+namespace Aheadworks\MobilePushNotification\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**
  * Class Devicetoken
- * @package Aheadworks\MobilePushNotification\Model\Resource
+ * @package Aheadworks\MobilePushNotification\Model\ResourceModel
  */
 class Devicetoken extends AbstractDb
 {

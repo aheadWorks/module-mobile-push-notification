@@ -5,7 +5,7 @@ namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edi
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Helper\Data;
 use Magento\Backend\Block\Widget\Grid\Extended;
-use Aheadworks\MobilePushNotification\Model\Resource\Pushnotification\CollectionFactory;
+use Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification\CollectionFactory;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**

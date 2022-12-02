@@ -34,8 +34,8 @@ class CheckDeviceToken
      * @throws GraphQlInputException
      */
     public function execute(array $data = null)
-    {	
-    	$message = [];
+    {
+        $message = [];
         try {
             $this->vaildateData($data);
             $devicetokenModel = $this->devicetokenFactory->create();

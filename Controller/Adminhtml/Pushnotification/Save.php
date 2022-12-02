@@ -103,7 +103,7 @@ class Save extends \Magento\Framework\App\Action\Action
          }
       }
 
-      if((isset($_FILES['notification_image']['name'])) && ($_FILES['notification_image']['name'] != '') && (!isset($data['notification_image']['delete']))){
+      if($this->uploaderFactory->create(['fileId' => 'notification_image']) != '' && !isset($data['notification_image']['delete'])) {
          try{
             $uploaderFactory = $this->uploaderFactory->create(['fileId' => 'notification_image']);
             $uploaderFactory->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
@@ -122,9 +122,12 @@ class Save extends \Magento\Framework\App\Action\Action
              $this->messageManager->addError(__("Image not Upload Pleae Try Again"));
          }
       }
-
-      $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-      $pushnotificationImg = $mediaUrl.$imagePath;
+      if(!empty($imagePath)){
+         $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+         $pushnotificationImg = $mediaUrl.$imagePath;
+      }else{
+         $pushnotificationImg = '';
+      }
       $newsModel = $this->pushnotificationFactory->create();
       $sendNotification = $this->pushNotification->sendNotification($messageTitle, $message, $pushnotificationImg);
       $newsModel->setData($data);

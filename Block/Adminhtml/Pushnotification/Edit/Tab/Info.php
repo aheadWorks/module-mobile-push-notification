@@ -114,11 +114,11 @@ class Info extends Generic implements TabInterface
                 'title' => __('Choose when to send'),
                 'required'  => true,
                 'values'    => array('' => __('Select option'),
-                                    'immediately' => static::IMMEDIATELY,
-                                    'once'   => static::ONCE,
-                                    'daily'   => static::DAILY,
-                                    'weekly'   => static::WEEKLY,
-                                    'monthly'   => static::MONTHLY
+                                    'immediately' => self::IMMEDIATELY,
+                                    'once'   => self::ONCE,
+                                    'daily'   => self::DAILY,
+                                    'weekly'   => self::WEEKLY,
+                                    'monthly'   => self::MONTHLY
                                 )
 
             ]
@@ -133,11 +133,11 @@ class Info extends Generic implements TabInterface
                 'title' => __('Select Action'),
                 'required'  => true,
                 'values'    => array('' => 'Select Feature To Open',
-                                    'openaproduct' => static::OPEN_A_PRODUCT,
-                                    'openacollection'   => static::OPEN_A_COLLECTION,
-                                    'escawayshophome'   => static::ESCAWAY_SHOP_HOME,
-                                    'categories'   => static::CATEGORIES,
-                                    'myprofile'   => static::MY_PROFILE
+                                    'openaproduct' => self::OPEN_A_PRODUCT,
+                                    'openacollection'   => self::OPEN_A_COLLECTION,
+                                    'escawayshophome'   => self::ESCAWAY_SHOP_HOME,
+                                    'categories'   => self::CATEGORIES,
+                                    'myprofile'   => self::MY_PROFILE
                                 )
 
             ]

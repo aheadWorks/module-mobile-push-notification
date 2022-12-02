@@ -15,6 +15,6 @@ class Pushnotification extends AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Aheadworks\MobilePushNotification\Model\Resource\Pushnotification');
+        $this->_init('Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification');
     }
 }
