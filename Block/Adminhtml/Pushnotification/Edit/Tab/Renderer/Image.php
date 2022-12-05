@@ -9,7 +9,11 @@ use Magento\Framework\View\Asset\Repository;
  */
 class Image extends \Magento\Framework\Data\Form\Element\Image
 {
-    const PREVIEW_IMAGE_URL = 'images/preview.png';
+    /**#@+
+     * Info constants
+     */
+    private const PREVIEW_IMAGE_URL = 'images/preview.png';
+    /**#@-*/
 
     /**
      * @var Repository
@@ -31,9 +35,9 @@ class Image extends \Magento\Framework\Data\Form\Element\Image
     public function getElementHtml()
     {
         $imageName = $this->getPreviewimage();
-        $imaeUrl = $this->repository->getUrl("Aheadworks_MobilePushNotification::".$imageName);
+        $imaeUrl = $this->repository->getUrl("Aheadworks_MobilePushNotification::" . $imageName);
         $html = '<div class="previewsection"><label id="previewtext"></label>
-        <label id="previewmsg"></label></div><image src="'.$imaeUrl.'"/>';
+        <label id="previewmsg"></label></div><image src="' . $imaeUrl . '"/>';
         return $html;
     }
 

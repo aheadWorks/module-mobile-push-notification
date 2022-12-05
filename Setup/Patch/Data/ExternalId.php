@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Aheadworks\MobilePushNotification\Setup\Patch\Data;
 
@@ -112,7 +114,6 @@ class ExternalId implements DataPatchInterface
             $attribute = $this->customerSetup->getEavConfig()
             ->getAttribute(CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER, 'aw_mobile_device_token');
             $this->attributeResource->save($attribute);
-
         } catch (Exception $e) {
             $this->logger->err($e->getMessage());
         }

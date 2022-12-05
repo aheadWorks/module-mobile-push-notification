@@ -1,5 +1,6 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Aheadworks\MobilePushNotification\Model\Resolver;
 

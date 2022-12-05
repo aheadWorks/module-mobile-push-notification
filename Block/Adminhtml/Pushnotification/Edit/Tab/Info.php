@@ -13,16 +13,20 @@ use Magento\Framework\Registry;
  */
 class Info extends Generic implements TabInterface
 {
-    const IMMEDIATELY = 'Immediately';
-    const ONCE = 'Once';
-    const DAILY = 'Daily';
-    const WEEKLY = 'Weekly';
-    const MONTHLY = 'Monthly';
-    const OPEN_A_PRODUCT = 'Open a product';
-    const OPEN_A_COLLECTION = 'Open a collection';
-    const ESCAWAY_SHOP_HOME = 'Escaway shop(Home)';
-    const CATEGORIES = 'Categories';
-    const MY_PROFILE = 'My Profile';
+    /**#@+
+     * Info constants
+     */
+    private const IMMEDIATELY = 'Immediately';
+    private const ONCE = 'Once';
+    private const DAILY = 'Daily';
+    private const WEEKLY = 'Weekly';
+    private const MONTHLY = 'Monthly';
+    private const OPEN_A_PRODUCT = 'Open a product';
+    private const OPEN_A_COLLECTION = 'Open a collection';
+    private const ESCAWAY_SHOP_HOME = 'Escaway shop(Home)';
+    private const CATEGORIES = 'Categories';
+    private const MY_PROFILE = 'My Profile';
+    /**#@-*/
 
     /**
      * @var Context
@@ -82,7 +86,7 @@ class Info extends Generic implements TabInterface
                 'note' => __('Maximum number of characters is 48.')
             ]
         );
-      
+
         $fieldset->addField(
             'message',
             'textarea',
@@ -173,7 +177,7 @@ class Info extends Generic implements TabInterface
     {
         return __('Push Notification');
     }
- 
+
     /**
      * Prepare title for tab
      *
@@ -183,7 +187,7 @@ class Info extends Generic implements TabInterface
     {
         return __('Push Notification');
     }
- 
+
     /**
      * Tab can show
      *
@@ -193,7 +197,7 @@ class Info extends Generic implements TabInterface
     {
         return true;
     }
- 
+
     /**
      * Tab can hidden
      *

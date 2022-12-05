@@ -34,6 +34,8 @@ class History extends Extended
     private $storeManager;
 
     /**
+     * History constructor
+     *
      * @param Context $context
      * @param Data $backendHelper
      * @param CollectionFactory $collectionFactory
@@ -51,6 +53,9 @@ class History extends Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * History constructor.
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -61,6 +66,9 @@ class History extends Extended
         $this->setFilterVisibility(false);
     }
 
+    /**
+     * Class _prepareCollection.
+     */
     protected function _prepareCollection()
     {
         $collection = $this->collectionFactory->create();
@@ -69,6 +77,9 @@ class History extends Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * Class _prepareColumns.
+     */
     protected function _prepareColumns()
     {
         $this->addColumn(
@@ -102,6 +113,11 @@ class History extends Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * Class callbackImage.
+     *
+     * @param string $value
+     */
     public function callbackImage($value)
     {
         if (empty($value)) {
@@ -110,7 +126,7 @@ class History extends Extended
 
         $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
         $width = 70;
-        
+
         return "<img src='" . $mediaUrl . $value . "' width='" . $width . "'/>";
     }
 }

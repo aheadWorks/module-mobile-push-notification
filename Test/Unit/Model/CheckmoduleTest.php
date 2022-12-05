@@ -26,7 +26,7 @@ class CheckmoduleTest extends TestCase
      * @var Manager
      */
     protected $moduleManager;
- 
+
     /**
      * @var string
      */
@@ -46,7 +46,7 @@ class CheckmoduleTest extends TestCase
             $this->expectedMessage = false;
         }
     }
- 
+
     public function testCheckModule()
     {
         $this->assertEquals($this->expectedMessage, $this->checkModule->checkModule());

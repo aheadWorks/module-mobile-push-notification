@@ -32,7 +32,7 @@ class Index extends AbstractAction
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
-    
+
     /**
      * Push notification index action
      */
@@ -46,7 +46,7 @@ class Index extends AbstractAction
             __('Push Notifications')
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Push Notifications'));
-        
+
         return $resultPage;
     }
 }

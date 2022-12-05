@@ -13,7 +13,11 @@ use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
  */
 class PushnotificationModel
 {
-    const DEFAULT_API_URL = 'https://fcm.googleapis.com/fcm/send';
+    /**#@+
+     * Info constants
+     */
+    private const DEFAULT_API_URL = 'https://fcm.googleapis.com/fcm/send';
+    /**#@-*/
 
     /**
      * @var CustomerFactory
@@ -36,8 +40,9 @@ class PushnotificationModel
     private $devicetokenFactory;
 
     /**
+     * Push notification Model constructor
+     *
      * @param CustomerFactory $customerFactory
-     * @param Context $context
      * @param Curl $curl
      * @param ScopeConfigInterface $scopeConfig
      * @param DevicetokenFactory $devicetokenFactory
@@ -54,6 +59,14 @@ class PushnotificationModel
         $this->devicetokenFactory = $devicetokenFactory;
     }
 
+    /**
+     * Send notification API
+     *
+     * @param string $messageTitle
+     * @param string $message
+     * @param string $pushnotificationImg
+     * @return array
+     */
     public function sendNotification($messageTitle, $message, $pushnotificationImg)
     {
         $registrationIds = [];
@@ -64,7 +77,8 @@ class PushnotificationModel
         if (!empty($customerObj->getData())) {
             foreach ($customerObj->getData() as $customerObjvalue) {
                 if (isset($customerObjvalue['aw_mobile_device_token'])
-                    && !empty($customerObjvalue['aw_mobile_device_token'])) {
+                    && !empty($customerObjvalue['aw_mobile_device_token'])
+                ) {
                         $registrationIds[] = $customerObjvalue['aw_mobile_device_token'];
                 }
             }
@@ -112,9 +126,7 @@ class PushnotificationModel
             }
 
             return $sendResponse;
-
         } else {
-
             return $sendResponse;
         }
     }

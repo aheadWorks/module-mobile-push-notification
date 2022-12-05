@@ -16,6 +16,8 @@ class Checkmodule extends AbstractModel
     private $moduleManager;
 
     /**
+     * Check module constructor
+     *
      * @param Manager $moduleManager
      */
     public function __construct(
@@ -24,6 +26,9 @@ class Checkmodule extends AbstractModel
         $this->moduleManager = $moduleManager;
     }
 
+    /**
+     * Check module status
+     */
     public function checkModule()
     {
         if ($this->moduleManager->isEnabled('Aheadworks_MobilePushNotification')) {

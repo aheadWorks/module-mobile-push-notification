@@ -83,7 +83,7 @@ class Edit extends Container
             return __('Add News');
         }
     }
- 
+
     /**
      * Prepare layout
      *
