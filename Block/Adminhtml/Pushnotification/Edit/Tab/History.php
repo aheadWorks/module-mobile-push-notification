@@ -40,6 +40,7 @@ class History extends Extended
      * @param Data $backendHelper
      * @param CollectionFactory $collectionFactory
      * @param StoreManagerInterface $storeManager
+     * @param array $data
      */
     public function __construct(
         Context $context,
