@@ -127,6 +127,7 @@ class PushnotificationModel
 
             return $sendResponse;
         } else {
+            $sendResponse = "notoken";
             return $sendResponse;
         }
     }

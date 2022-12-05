@@ -130,13 +130,15 @@ class Save extends \Magento\Framework\App\Action\Action
         }
          $newsModel = $this->pushnotificationFactory->create();
          $sendNotification = $this->pushNotification->sendNotification($messageTitle, $message, $pushnotificationImg);
-         $newsModel->setData($data);
-         $newsModel->save($data);
 
         if ($sendNotification == "success") {
+            $newsModel->setData($data);
+            $newsModel->save($data);
             $this->messageManager->addSuccessMessage(__('Notification send successfully'));
+        } elseif ($sendNotification == "notoken") {
+            $this->messageManager->addErrorMessage(__('There is no mobile device token found.'));
         } else {
-            $this->messageManager->addExceptionMessage(__('Something went wrong while sending the notification'));
+            $this->messageManager->addErrorMessage(__('Something went wrong while sending the notification'));
         }
 
          return $resultRedirect;
