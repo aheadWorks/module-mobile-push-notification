@@ -13,8 +13,8 @@ use Magento\Store\Model\StoreManagerInterface;
  * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab
  */
 class History extends Extended
-{	
-	/**
+{
+    /**
      * @var Context
      */
     private $context;
@@ -47,71 +47,71 @@ class History extends Extended
         StoreManagerInterface $storeManager,
         array $data = []
     ) {
-    	$this->storeManager = $storeManager;
+        $this->storeManager = $storeManager;
         $this->collectionFactory = $collectionFactory;
         parent::__construct($context, $backendHelper, $data);
     }
 
-	protected function _construct()
-	{
-	    parent::_construct();
-	    $this->setId('view_notification_grid');
-	    $this->setDefaultSort('created_at', 'desc');
-	    $this->setSortable(true);
-	    $this->setPagerVisibility(true);
-	    $this->setFilterVisibility(false);
-	}
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setId('view_notification_grid');
+        $this->setDefaultSort('created_at', 'desc');
+        $this->setSortable(true);
+        $this->setPagerVisibility(true);
+        $this->setFilterVisibility(false);
+    }
 
-	protected function _prepareCollection()
-	{
-	    $collection = $this->collectionFactory->create();
-	    $this->setCollection($collection);
+    protected function _prepareCollection()
+    {
+        $collection = $this->collectionFactory->create();
+        $this->setCollection($collection);
 
-	    return parent::_prepareCollection();
-	}
+        return parent::_prepareCollection();
+    }
 
-	protected function _prepareColumns()
-	{
-	    $this->addColumn(
-	        'id',
-	        ['header' => __('ID'), 'index' => 'id', 'type' => 'number', 'width' => '100px']
-	    );
-	    $this->addColumn(
-	        'message_title',
-	        [
-	            'header' => __('Message Title'),
-	            'index' => 'message_title',
-	        ]
-	    );
-	    $this->addColumn(
-	        'message',
-	        [
-	            'header' => __('Message'),
-	            'index' => 'message',
-	        ]
-	    );
-	    $this->addColumn(
-		    'notification_image',
-		    [
-		        'header' => __('Image'),
-		        'index' => 'notification_image',
-		        'type' => 'notification_image',
-		        'frame_callback' => array($this, 'callback_image'),
-		    ]
-		);
+    protected function _prepareColumns()
+    {
+        $this->addColumn(
+            'id',
+            ['header' => __('ID'), 'index' => 'id', 'type' => 'number', 'width' => '100px']
+        );
+        $this->addColumn(
+            'message_title',
+            [
+                'header' => __('Message Title'),
+                'index' => 'message_title',
+            ]
+        );
+        $this->addColumn(
+            'message',
+            [
+                'header' => __('Message'),
+                'index' => 'message',
+            ]
+        );
+        $this->addColumn(
+            'notification_image',
+            [
+                'header' => __('Image'),
+                'index' => 'notification_image',
+                'type' => 'notification_image',
+                'frame_callback' => [$this, 'callback_image']
+            ]
+        );
 
-	    return parent::_prepareColumns();
-	}
+        return parent::_prepareColumns();
+    }
 
-	public function callback_image($value)
-	{
-	    if (empty($value)){
-	        return '';
-	    }
+    public function callback_image($value)
+    {
+        if (empty($value)) {
+            return '';
+        }
 
-	    $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-	    $width = 70;
-	    
-	    return "<img src='" . $mediaUrl . $value . "' width='" . $width . "'/>";
-	}
+        $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        $width = 70;
+        
+        return "<img src='" . $mediaUrl . $value . "' width='" . $width . "'/>";
+    }
 }

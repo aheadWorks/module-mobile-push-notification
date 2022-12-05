@@ -17,7 +17,7 @@ class Edit extends Container
      */
     private $context;
 
-   /**
+    /**
      * Core registry
      *
      * @var Registry

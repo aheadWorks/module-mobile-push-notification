@@ -22,37 +22,37 @@ class Save extends \Magento\Framework\App\Action\Action
    /**
     * @var PushnotificationModel
     */
-   private $pushNotification;
+    private $pushNotification;
 
    /**
     * @var DataPersistorInterface
     */
-   private $dataPersistor;
+    private $dataPersistor;
 
    /**
     * @var Filesystem
     */
-   private $fileSystem;
+    private $fileSystem;
 
    /**
     * @var UploaderFactory
     */
-   private $uploaderFactory;
+    private $uploaderFactory;
 
    /**
     * @var AdapterFactory
     */
-   private $adapterFactory;
+    private $adapterFactory;
 
    /**
     * @var PushnotificationFactory
     */
-   private $pushnotificationFactory;
+    private $pushnotificationFactory;
 
    /**
     * @var StoreManagerInterface
     */
-   private $storeManager;
+    private $storeManager;
 
    /**
     * @param PushnotificationModel $pushNotification
@@ -64,7 +64,7 @@ class Save extends \Magento\Framework\App\Action\Action
     * @param StoreManagerInterface $storeManager
     * @param Context $context
     */
-   public function __construct(
+    public function __construct(
         PushnotificationModel $pushNotification,
         DataPersistorInterface $dataPersistor,
         Filesystem $fileSystem,
@@ -73,7 +73,7 @@ class Save extends \Magento\Framework\App\Action\Action
         PushnotificationFactory $pushnotificationFactory,
         StoreManagerInterface $storeManager,
         Context $context
-   ){
+    ) {
         $this->pushNotification = $pushNotification;
         $this->dataPersistor = $dataPersistor;
         $this->fileSystem = $fileSystem;
@@ -82,63 +82,64 @@ class Save extends \Magento\Framework\App\Action\Action
         $this->pushnotificationFactory = $pushnotificationFactory;
         $this->storeManager = $storeManager;
         parent::__construct($context);
-   }
+    }
 
    /**
     * {@inheritdoc}
     */
-   public function execute()
-   { 
-      $resultRedirect = $this->resultRedirectFactory->create();
-      $resultRedirect->setUrl($this->_redirect->getRefererUrl());
-      $data = $this->getRequest()->getPostValue();
-      $messageTitle = $data['message_title'];
-      $message = $data['message'];
-      $choose = $data['choose_action'];
-      $selectAction = $data['select_action'];
+    public function execute()
+    {
+        $resultRedirect = $this->resultRedirectFactory->create();
+        $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+        $data = $this->getRequest()->getPostValue();
+        $messageTitle = $data['message_title'];
+        $message = $data['message'];
+        $choose = $data['choose_action'];
+        $selectAction = $data['select_action'];
 
-      if(isset($data['notification_image']['delete'])){
-         if($data['notification_image']['delete'] == 1){
-             $data['notification_image'] = '';
-         }
-      }
-
-      if($this->uploaderFactory->create(['fileId' => 'notification_image']) != '' && !isset($data['notification_image']['delete'])) {
-         try{
-            $uploaderFactory = $this->uploaderFactory->create(['fileId' => 'notification_image']);
-            $uploaderFactory->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
-            $imageAdapter = $this->adapterFactory->create();
-            $uploaderFactory->setAllowRenameFiles(true);
-            $uploaderFactory->setFilesDispersion(true);
-            $mediaDirectory = $this->fileSystem->getDirectoryRead(DirectoryList::MEDIA);
-            $destinationPath = $mediaDirectory->getAbsolutePath('aheadworks_mobilepushnotification_img');
-            $result = $uploaderFactory->save($destinationPath);
-            if(!$result){
-               throw new LocalizedException(__('File cannot be saved to path: $1', $destinationPath));
+        if (isset($data['notification_image']['delete'])) {
+            if ($data['notification_image']['delete'] == 1) {
+                  $data['notification_image'] = '';
             }
-            $imagePath = 'aheadworks_mobilepushnotification_img' . $result['file'];
-            $data['notification_image'] = $imagePath;
-         }catch(\Exception $e){
-             $this->messageManager->addError(__("Image not Upload Pleae Try Again"));
-         }
-      }
-      if(!empty($imagePath)){
-         $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-         $pushnotificationImg = $mediaUrl.$imagePath;
-      }else{
-         $pushnotificationImg = '';
-      }
-      $newsModel = $this->pushnotificationFactory->create();
-      $sendNotification = $this->pushNotification->sendNotification($messageTitle, $message, $pushnotificationImg);
-      $newsModel->setData($data);
-      $newsModel->save($data);
+        }
 
-      if($sendNotification == "success"){
-         $this->messageManager->addSuccessMessage(__('Notification send successfully'));
-      }else{
-         $this->messageManager->addExceptionMessage(__('Something went wrong while sending the notification'));
-      }
+        if ($this->uploaderFactory->create(['fileId' => 'notification_image']) != ''
+         && !isset($data['notification_image']['delete'])) {
+            try {
+                  $uploaderFactory = $this->uploaderFactory->create(['fileId' => 'notification_image']);
+                  $uploaderFactory->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+                  $imageAdapter = $this->adapterFactory->create();
+                  $uploaderFactory->setAllowRenameFiles(true);
+                  $uploaderFactory->setFilesDispersion(true);
+                  $mediaDirectory = $this->fileSystem->getDirectoryRead(DirectoryList::MEDIA);
+                  $destinationPath = $mediaDirectory->getAbsolutePath('aheadworks_mobilepushnotification_img');
+                  $result = $uploaderFactory->save($destinationPath);
+                if (!$result) {
+                     throw new LocalizedException(__('File cannot be saved to path: $1', $destinationPath));
+                }
+                  $imagePath = 'aheadworks_mobilepushnotification_img' . $result['file'];
+                  $data['notification_image'] = $imagePath;
+            } catch (\Exception $e) {
+                $this->messageManager->addError(__("Image not Upload Pleae Try Again"));
+            }
+        }
+        if (!empty($imagePath)) {
+            $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+            $pushnotificationImg = $mediaUrl.$imagePath;
+        } else {
+            $pushnotificationImg = '';
+        }
+         $newsModel = $this->pushnotificationFactory->create();
+         $sendNotification = $this->pushNotification->sendNotification($messageTitle, $message, $pushnotificationImg);
+         $newsModel->setData($data);
+         $newsModel->save($data);
 
-      return $resultRedirect;
-   }
+        if ($sendNotification == "success") {
+            $this->messageManager->addSuccessMessage(__('Notification send successfully'));
+        } else {
+            $this->messageManager->addExceptionMessage(__('Something went wrong while sending the notification'));
+        }
+
+         return $resultRedirect;
+    }
 }

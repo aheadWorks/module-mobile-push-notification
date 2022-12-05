@@ -27,10 +27,10 @@ class Checkmodule extends AbstractModel
 
     public function checkModule()
     {
-    	if ($this->moduleManager->isEnabled('Aheadworks_MobilePushNotification')) {
-		   return true;
-		} else {
-		   return false;
-		}
+        if ($this->moduleManager->isEnabled('Aheadworks_MobilePushNotification')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

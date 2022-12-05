@@ -13,7 +13,7 @@ use Magento\Framework\Data\FormFactory;
  * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab
  */
 class Info extends Generic implements TabInterface
-{   
+{
     const IMMEDIATELY = 'Immediately';
     const ONCE = 'Once';
     const DAILY = 'Daily';
@@ -40,7 +40,7 @@ class Info extends Generic implements TabInterface
      */
     private $formFactory;
 
-   /**
+    /**
      * @param Context $context
      * @param Registry $registry
      * @param FormFactory $formFactory
@@ -61,7 +61,7 @@ class Info extends Generic implements TabInterface
      * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
-    {  
+    {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset(
@@ -113,13 +113,13 @@ class Info extends Generic implements TabInterface
                 'label' => __('Choose when to send'),
                 'title' => __('Choose when to send'),
                 'required'  => true,
-                'values'    => array('' => __('Select option'),
+                'values'    => ['' => __('Select option'),
                                     'immediately' => self::IMMEDIATELY,
                                     'once'   => self::ONCE,
                                     'daily'   => self::DAILY,
                                     'weekly'   => self::WEEKLY,
                                     'monthly'   => self::MONTHLY
-                                )
+                                ]
 
             ]
         );
@@ -132,13 +132,13 @@ class Info extends Generic implements TabInterface
                 'label' => __('Select Action'),
                 'title' => __('Select Action'),
                 'required'  => true,
-                'values'    => array('' => 'Select Feature To Open',
+                'values'    => ['' => 'Select Feature To Open',
                                     'openaproduct' => self::OPEN_A_PRODUCT,
                                     'openacollection'   => self::OPEN_A_COLLECTION,
                                     'escawayshophome'   => self::ESCAWAY_SHOP_HOME,
                                     'categories'   => self::CATEGORIES,
                                     'myprofile'   => self::MY_PROFILE
-                                )
+                                ]
 
             ]
         );

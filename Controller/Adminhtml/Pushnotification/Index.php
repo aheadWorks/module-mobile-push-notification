@@ -36,7 +36,7 @@ class Index extends AbstractAction
     
     /**
      * {@inheritdoc}
-    */
+     */
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();

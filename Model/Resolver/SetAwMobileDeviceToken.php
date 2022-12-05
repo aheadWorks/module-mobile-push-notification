@@ -16,7 +16,7 @@ use Aheadworks\MobilePushNotification\Model\CheckDeviceToken;
  */
 class SetAwMobileDeviceToken implements ResolverInterface
 {
-     /**
+    /**
      * @var CheckDeviceToken
      */
     private $checkDeviceToken;

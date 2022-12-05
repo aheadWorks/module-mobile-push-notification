@@ -1,10 +1,12 @@
 <?php
+
 namespace Aheadworks\MobilePushNotification\Test\Unit\Model;
 
 use PHPUnit\Framework\TestCase;
 use Aheadworks\MobilePushNotification\Model\Checkmodule;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\Module\Manager;
+
 /**
  * Class CheckmoduleTest
  *
@@ -32,7 +34,7 @@ class CheckmoduleTest extends TestCase
      */
     protected $expectedMessage;
 
-     /**
+    /**
      * Initialize model
      */
     public function setUp(): void
@@ -41,11 +43,10 @@ class CheckmoduleTest extends TestCase
         $this->checkModule = $this->objectManager->getObject(Checkmodule::class);
         $this->moduleManager = $this->objectManager->getObject(Manager::class);
         if ($this->moduleManager->isEnabled('Aheadworks_MobilePushNotification')) {
-           $this->expectedMessage = true;
+            $this->expectedMessage = true;
         } else {
-           $this->expectedMessage = false;
+            $this->expectedMessage = false;
         }
-
     }
  
     public function testCheckModule()
