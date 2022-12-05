@@ -5,8 +5,7 @@ namespace Aheadworks\MobilePushNotification\Model\ResourceModel\Devicetoken;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
 /**
- * Class Collection
- * @package Aheadworks\MobilePushNotification\Model\ResourceModel\Devicetoken
+ * Device token collection.
  */
 class Collection extends AbstractCollection
 {
@@ -16,8 +15,8 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init(
-            'Aheadworks\MobilePushNotification\Model\Devicetoken',
-            'Aheadworks\MobilePushNotification\Model\ResourceModel\Devicetoken'
+            \Aheadworks\MobilePushNotification\Model\Devicetoken::class,
+            \Aheadworks\MobilePushNotification\Model\ResourceModel\Devicetoken::class
         );
     }
 }

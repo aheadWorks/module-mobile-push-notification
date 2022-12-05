@@ -5,8 +5,7 @@ namespace Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
 /**
- * Class Collection
- * @package Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification
+ * Push notification collection.
  */
 class Collection extends AbstractCollection
 {
@@ -16,8 +15,8 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init(
-            'Aheadworks\MobilePushNotification\Model\Pushnotification',
-            'Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification'
+            \Aheadworks\MobilePushNotification\Model\Pushnotification::class,
+            \Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification::class
         );
     }
 }

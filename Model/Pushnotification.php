@@ -5,8 +5,7 @@ namespace Aheadworks\MobilePushNotification\Model;
 use Magento\Framework\Model\AbstractModel;
 
 /**
- * Class Pushnotification
- * @package Aheadworks\MobilePushNotification\Model
+ * Push notification model.
  */
 class Pushnotification extends AbstractModel
 {
@@ -15,6 +14,6 @@ class Pushnotification extends AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification');
+        $this->_init(\Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification::class);
     }
 }

@@ -10,8 +10,7 @@ use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
 
 /**
- * Class CheckDeviceToken
- * @package Aheadworks\MobilePushNotification\Model
+ * Check device token model.
  */
 class CheckDeviceToken
 {

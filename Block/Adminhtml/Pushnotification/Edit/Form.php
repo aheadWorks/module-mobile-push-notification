@@ -5,12 +5,13 @@ namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edi
 use Magento\Backend\Block\Widget\Form\Generic;
 
 /**
- * Class Form
- * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit
+ * Push notification form
  */
 class Form extends Generic
 {
     /**
+     * Class _prepareForm
+     *
      * @return $this
      */
     protected function _prepareForm()

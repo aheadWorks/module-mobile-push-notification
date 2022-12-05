@@ -7,8 +7,7 @@ use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Registry;
 
 /**
- * Class Edit
- * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification
+ * Push notification edit page.
  */
 class Edit extends Container
 {
@@ -18,8 +17,6 @@ class Edit extends Container
     private $context;
 
     /**
-     * Core registry
-     *
      * @var Registry
      */
     protected $_coreRegistry = null;

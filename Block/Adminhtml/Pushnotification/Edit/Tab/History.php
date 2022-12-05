@@ -9,8 +9,7 @@ use Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification\Colle
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Class History
- * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab
+ * Push notification history
  */
 class History extends Extended
 {
@@ -20,14 +19,14 @@ class History extends Extended
     private $context;
 
     /**
-     * @var CollectionFactory
-     */
-    protected $collectionFactory;
-
-    /**
      * @var Data
      */
     private $backendHelper;
+
+    /**
+     * @var CollectionFactory
+     */
+    protected $collectionFactory;
 
     /**
      * @var StoreManagerInterface
@@ -36,9 +35,9 @@ class History extends Extended
 
     /**
      * @param Context $context
+     * @param Data $backendHelper
      * @param CollectionFactory $collectionFactory
      * @param StoreManagerInterface $storeManager
-     * @param Data $backendHelper
      */
     public function __construct(
         Context $context,
@@ -47,8 +46,8 @@ class History extends Extended
         StoreManagerInterface $storeManager,
         array $data = []
     ) {
-        $this->storeManager = $storeManager;
         $this->collectionFactory = $collectionFactory;
+        $this->storeManager = $storeManager;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -96,14 +95,14 @@ class History extends Extended
                 'header' => __('Image'),
                 'index' => 'notification_image',
                 'type' => 'notification_image',
-                'frame_callback' => [$this, 'callback_image']
+                'frame_callback' => [$this, 'callbackImage']
             ]
         );
 
         return parent::_prepareColumns();
     }
 
-    public function callback_image($value)
+    public function callbackImage($value)
     {
         if (empty($value)) {
             return '';

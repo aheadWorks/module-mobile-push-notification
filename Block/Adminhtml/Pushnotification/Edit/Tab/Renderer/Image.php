@@ -5,8 +5,7 @@ namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edi
 use Magento\Framework\View\Asset\Repository;
 
 /**
- * Class Image
- * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab\Renderer
+ * Push notification image
  */
 class Image extends \Magento\Framework\Data\Form\Element\Image
 {
@@ -27,13 +26,24 @@ class Image extends \Magento\Framework\Data\Form\Element\Image
     }
 
     /**
-     * {@inheritdoc}
+     * Push notification index action
      */
     public function getElementHtml()
     {
-        $imageName = self::PREVIEW_IMAGE_URL;
+        $imageName = $this->getPreviewimage();
         $imaeUrl = $this->repository->getUrl("Aheadworks_MobilePushNotification::".$imageName);
-        $html = '<div class="previewsection"><label id="previewtext"></label><label id="previewmsg"></label></div><image src="'.$imaeUrl.'"/>';
+        $html = '<div class="previewsection"><label id="previewtext"></label>
+        <label id="previewmsg"></label></div><image src="'.$imaeUrl.'"/>';
         return $html;
+    }
+
+    /**
+     * Show preview image
+     *
+     * @return string
+     */
+    public function getPreviewimage()
+    {
+        return self::PREVIEW_IMAGE_URL;
     }
 }

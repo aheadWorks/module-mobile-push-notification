@@ -6,8 +6,7 @@ use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Module\Manager;
 
 /**
- * Class Checkmodule
- * @package Aheadworks\MobilePushNotification\Model
+ * Check module status.
  */
 class Checkmodule extends AbstractModel
 {

@@ -12,8 +12,7 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 
 /**
- * Class ExternalId
- * @package Aheadworks\MobilePushNotification\Setup\Patch\Data
+ * Add aw mobile device token attribute in customer
  */
 class ExternalId implements DataPatchInterface
 {

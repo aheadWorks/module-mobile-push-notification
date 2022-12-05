@@ -5,12 +5,11 @@ namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edi
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Backend\Block\Template\Context;
-use Magento\Framework\Registry;
 use Magento\Framework\Data\FormFactory;
+use Magento\Framework\Registry;
 
 /**
- * Class Info
- * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab
+ * Push notification info
  */
 class Info extends Generic implements TabInterface
 {
@@ -52,6 +51,7 @@ class Info extends Generic implements TabInterface
         FormFactory $formFactory,
         array $data = []
     ) {
+        $this->_formFactory = $formFactory;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -76,7 +76,9 @@ class Info extends Generic implements TabInterface
                 'name'        => 'message_title',
                 'label'    => __('Message Title'),
                 'required'     => true,
-                'after_element_html' => '<script type="text/javascript">document.getElementById("message_title").setAttribute("maxlength", "48")</script>',
+                'after_element_html' => '<script type="text/javascript">
+                    document.getElementById("message_title").setAttribute("maxlength", "48"
+                    )</script>',
                 'note' => __('Maximum number of characters is 48.')
             ]
         );
@@ -114,11 +116,11 @@ class Info extends Generic implements TabInterface
                 'title' => __('Choose when to send'),
                 'required'  => true,
                 'values'    => ['' => __('Select option'),
-                                    'immediately' => self::IMMEDIATELY,
-                                    'once'   => self::ONCE,
-                                    'daily'   => self::DAILY,
-                                    'weekly'   => self::WEEKLY,
-                                    'monthly'   => self::MONTHLY
+                                    'immediately' => $this->getImmediately(),
+                                    'once'   => $this->getOnce(),
+                                    'daily'   => $this->getDaily(),
+                                    'weekly'   => $this->getWeekly(),
+                                    'monthly'   => $this->getMonthly()
                                 ]
 
             ]
@@ -133,11 +135,11 @@ class Info extends Generic implements TabInterface
                 'title' => __('Select Action'),
                 'required'  => true,
                 'values'    => ['' => 'Select Feature To Open',
-                                    'openaproduct' => self::OPEN_A_PRODUCT,
-                                    'openacollection'   => self::OPEN_A_COLLECTION,
-                                    'escawayshophome'   => self::ESCAWAY_SHOP_HOME,
-                                    'categories'   => self::CATEGORIES,
-                                    'myprofile'   => self::MY_PROFILE
+                                    'openaproduct' => $this->getOpenaproduct(),
+                                    'openacollection'   => $this->getOpenacollection(),
+                                    'escawayshophome'   => $this->getEscawayshophome(),
+                                    'categories'   => $this->getCategories(),
+                                    'myprofile'   => $this->getMyprofile()
                                 ]
 
             ]
@@ -145,7 +147,7 @@ class Info extends Generic implements TabInterface
 
         $fieldset->addType(
             'previewtype',
-            '\Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab\Renderer\Image'
+            \Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab\Renderer\Image::class
         );
 
         $field = $fieldset->addField(
@@ -183,7 +185,9 @@ class Info extends Generic implements TabInterface
     }
  
     /**
-     * {@inheritdoc}
+     * Tab can show
+     *
+     * @return string
      */
     public function canShowTab()
     {
@@ -191,10 +195,112 @@ class Info extends Generic implements TabInterface
     }
  
     /**
-     * {@inheritdoc}
+     * Tab can hidden
+     *
+     * @return string
      */
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Show immediately
+     *
+     * @return string
+     */
+    public function getImmediately()
+    {
+        return self::IMMEDIATELY;
+    }
+
+    /**
+     * Show once
+     *
+     * @return string
+     */
+    public function getOnce()
+    {
+        return self::ONCE;
+    }
+
+    /**
+     * Show daily
+     *
+     * @return string
+     */
+    public function getDaily()
+    {
+        return self::DAILY;
+    }
+
+    /**
+     * Show weekly
+     *
+     * @return string
+     */
+    public function getWeekly()
+    {
+        return self::WEEKLY;
+    }
+
+    /**
+     * Show monthly
+     *
+     * @return string
+     */
+    public function getMonthly()
+    {
+        return self::MONTHLY;
+    }
+
+    /**
+     * Show open a product
+     *
+     * @return string
+     */
+    public function getOpenaproduct()
+    {
+        return self::OPEN_A_PRODUCT;
+    }
+
+    /**
+     * Show open a collection
+     *
+     * @return string
+     */
+    public function getOpenacollection()
+    {
+        return self::OPEN_A_COLLECTION;
+    }
+
+    /**
+     * Show escaway shop home
+     *
+     * @return string
+     */
+    public function getEscawayshophome()
+    {
+        return self::ESCAWAY_SHOP_HOME;
+    }
+
+    /**
+     * Show categories
+     *
+     * @return string
+     */
+    public function getCategories()
+    {
+        return self::CATEGORIES;
+    }
+
+    /**
+     * Show my profile
+     *
+     * @return string
+     */
+    public function getMyprofile()
+    {
+        return self::MY_PROFILE;
     }
 }

@@ -9,8 +9,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
 
 /**
- * Class PushnotificationModel
- * @package Aheadworks\MobilePushNotification\Model\Pushnotification
+ * Push notification model api.
  */
 class PushnotificationModel
 {

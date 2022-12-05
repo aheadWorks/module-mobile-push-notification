@@ -8,9 +8,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\Module\Manager;
 
 /**
- * Class CheckmoduleTest
- *
- * @package Aheadworks\MobilePushNotification\Test\Unit
+ * Test module status.
  */
 class CheckmoduleTest extends TestCase
 {

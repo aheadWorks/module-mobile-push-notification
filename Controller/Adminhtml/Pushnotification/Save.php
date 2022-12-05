@@ -14,8 +14,7 @@ use Aheadworks\MobilePushNotification\Model\PushnotificationFactory;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Class Save
- * @package Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification
+ * save push notification data
  */
 class Save extends \Magento\Framework\App\Action\Action
 {
@@ -84,9 +83,9 @@ class Save extends \Magento\Framework\App\Action\Action
         parent::__construct($context);
     }
 
-   /**
-    * {@inheritdoc}
-    */
+    /**
+     * Push notification index action
+     */
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();

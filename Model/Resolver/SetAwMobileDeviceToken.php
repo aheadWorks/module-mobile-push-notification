@@ -11,8 +11,7 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Aheadworks\MobilePushNotification\Model\CheckDeviceToken;
 
 /**
- * Class SetAwMobileDeviceToken
- * @package Aheadworks\MobilePushNotification\Model\Resolver
+ * Set aw mobile device token resolver.
  */
 class SetAwMobileDeviceToken implements ResolverInterface
 {

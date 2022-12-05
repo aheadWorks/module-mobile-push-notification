@@ -5,8 +5,7 @@ namespace Aheadworks\MobilePushNotification\Model\ResourceModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**
- * Class Pushnotification
- * @package Aheadworks\MobilePushNotification\Model\ResourceModel
+ * Push notification resource model.
  */
 class Pushnotification extends AbstractDb
 {

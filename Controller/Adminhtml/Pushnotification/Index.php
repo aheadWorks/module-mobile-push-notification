@@ -7,8 +7,7 @@ use Magento\Framework\View\Result\PageFactory;
 use Aheadworks\MobileAppConnector\Controller\Adminhtml\Preferences\AbstractAction;
 
 /**
- * Class Index
- * @package Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification
+ * Push notification index controller
  */
 class Index extends AbstractAction
 {
@@ -35,7 +34,7 @@ class Index extends AbstractAction
     }
     
     /**
-     * {@inheritdoc}
+     * Push notification index action
      */
     public function execute()
     {

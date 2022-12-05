@@ -5,8 +5,7 @@ namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edi
 use Magento\Backend\Block\Widget\Tabs as WidgetTabs;
 
 /**
- * Class Tabs
- * @package Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit
+ * Push notification tabs
  */
 class Tabs extends WidgetTabs
 {
@@ -24,6 +23,8 @@ class Tabs extends WidgetTabs
     }
 
     /**
+     * Class _beforeToHtml
+     *
      * @return $this
      */
     protected function _beforeToHtml()
@@ -34,7 +35,7 @@ class Tabs extends WidgetTabs
                 'label' => __('Add Push Notification'),
                 'title' => __('Add Push Notification'),
                 'content' => $this->getLayout()->createBlock(
-                    'Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab\Info'
+                    \Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab\Info::class
                 )->toHtml(),
                 'active' => true
             ],
@@ -46,7 +47,7 @@ class Tabs extends WidgetTabs
                 'label' => __('Notification History'),
                 'title' => __('Notification History'),
                 'content' => $this->getLayout()->createBlock(
-                    'Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab\History'
+                    \Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Edit\Tab\History::class
                 )->toHtml(),
                 'active' => true
             ],
