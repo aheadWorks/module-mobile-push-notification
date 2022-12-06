@@ -202,9 +202,6 @@ pipelines:
           - step: *codesnifferTest-2.4.5-p1
           - step: *unitTestPHP81-244
           - step: *unitTestPHP81
-          - step: *phpstanTestPHP81-244
-          - step: *phpstanTestPHP81
-          - step: *messDetectorTestPHP81
           - step: *installMagento-2.4.4-p2
           - step: *installMagento-2.4.5-p1
       - step: *rebuildPrivateComposer
