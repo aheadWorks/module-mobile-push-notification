@@ -17,7 +17,7 @@
                 <field id="sender_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sender ID</label>
                 </field>
-                <field id="firebase_api_key" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="firebase_api_key" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Firebase API Key</label>
                 </field>
             </group>

@@ -3,13 +3,11 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="aw_mobile_push_notification" resource="default" engine="innodb" comment="Mobile Push Notification Table">
         <column xsi:type="int" name="id" padding="11" unsigned="true" nullable="false" identity="true" comment="Id"/>
-        <column xsi:type="int" name="entity_id" padding="11" unsigned="true" nullable="false" identity="false"
-                comment="Entity Id"/>
         <column xsi:type="text" name="message_title" nullable="false" comment="Message Title"/>
         <column xsi:type="text" name="message" nullable="false" comment="Message"/>
         <column xsi:type="text" name="notification_image" nullable="false" comment="Notification Image"/>
-        <column xsi:type="text" name="choose_action" nullable="false" comment="Choose Action"/>
-        <column xsi:type="text" name="select_action" nullable="false" comment="Select Action"/>
+        <column xsi:type="text" name="schedule_time" nullable="false" comment="Schedule Time"/>
+        <column xsi:type="text" name="open_page" nullable="false" comment="Open Page"/>
         <column xsi:type="timestamp" name="created_at" nullable="false" comment="Created At" default="CURRENT_TIMESTAMP"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
@@ -17,8 +15,6 @@
     </table>
     <table name="aw_mobile_device_token" resource="default" engine="innodb" comment="Mobile Device Token">
         <column xsi:type="int" name="id" padding="11" unsigned="true" nullable="false" identity="true" comment="Id"/>
-        <column xsi:type="int" name="entity_id" padding="11" unsigned="true" nullable="false" identity="false"
-                comment="Entity Id"/>
         <column xsi:type="int" name="customer_id" nullable="false" comment="Customer Id"/>
         <column xsi:type="text" name="device_id" nullable="false" comment="Device Id"/>
         <column xsi:type="text" name="device_token" nullable="false" comment="Device Token"/>

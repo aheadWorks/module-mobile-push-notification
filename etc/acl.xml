@@ -10,6 +10,9 @@
                         </resource>
                     </resource>
                 </resource>
+                <resource id="Aheadworks_MobileAppConnector::general" title="MobileAppConnector by Aheadworks" sortOrder="10">
+                    <resource id="Aheadworks_MobilePushNotification::push_notification" title="Push Notification" sortOrder="20" />
+                </resource>
             </resource>
         </resources>
     </acl>

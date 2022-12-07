@@ -47,8 +47,8 @@ class CheckmoduleTest extends TestCase
         }
     }
 
-    public function testCheckModule()
+    public function testModuleStatus()
     {
-        $this->assertEquals($this->expectedMessage, $this->checkModule->checkModule());
+        $this->assertEquals($this->expectedMessage, $this->checkModule->moduleStatus());
     }
 }

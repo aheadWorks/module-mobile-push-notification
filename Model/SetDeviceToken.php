@@ -13,7 +13,7 @@ use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
 /**
  * Check device token model.
  */
-class CheckDeviceToken
+class SetDeviceToken
 {
     /**
      * @var DevicetokenFactory

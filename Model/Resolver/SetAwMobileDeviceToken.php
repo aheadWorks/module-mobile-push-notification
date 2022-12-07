@@ -9,7 +9,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Aheadworks\MobilePushNotification\Model\CheckDeviceToken;
+use Aheadworks\MobilePushNotification\Model\SetDeviceToken;
 
 /**
  * Set aw mobile device token resolver.
@@ -17,17 +17,17 @@ use Aheadworks\MobilePushNotification\Model\CheckDeviceToken;
 class SetAwMobileDeviceToken implements ResolverInterface
 {
     /**
-     * @var CheckDeviceToken
+     * @var SetDeviceToken
      */
-    private $checkDeviceToken;
+    private $setDeviceToken;
 
     /**
-     * @param CheckDeviceToken $checkDeviceToken
+     * @param SetDeviceToken $setDeviceToken
      */
     public function __construct(
-        CheckDeviceToken $checkDeviceToken
+        SetDeviceToken $setDeviceToken
     ) {
-        $this->checkDeviceToken = $checkDeviceToken;
+        $this->setDeviceToken = $setDeviceToken;
     }
 
     /**
@@ -39,6 +39,6 @@ class SetAwMobileDeviceToken implements ResolverInterface
             throw new GraphQlInputException(__('"input" value should be specified'));
         }
 
-        return $this->checkDeviceToken->execute($args['input']);
+        return $this->setDeviceToken->execute($args['input']);
     }
 }

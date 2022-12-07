@@ -3,15 +3,13 @@
 namespace Aheadworks\MobilePushNotification\Model\Pushnotification;
 
 use Magento\Customer\Model\CustomerFactory;
-use Magento\Framework\HTTP\Client\Curl;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
+use Aheadworks\MobilePushNotification\Model\Api\Request\Curl;
 
 /**
- * Push notification model api.
+ * Notification interface for fcm.
  */
-class PushnotificationModel
+class NotificationInterface
 {
     /**#@+
      * Info constants
@@ -27,12 +25,7 @@ class PushnotificationModel
     /**
      * @var Curl
      */
-    private $curl;
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private $curlRequest;
 
     /**
      * @var DevicetokenFactory
@@ -43,19 +36,16 @@ class PushnotificationModel
      * Push notification Model constructor
      *
      * @param CustomerFactory $customerFactory
-     * @param Curl $curl
-     * @param ScopeConfigInterface $scopeConfig
+     * @param Curl $curlRequest
      * @param DevicetokenFactory $devicetokenFactory
      */
     public function __construct(
         CustomerFactory $customerFactory,
-        Curl $curl,
-        ScopeConfigInterface $scopeConfig,
+        Curl $curlRequest,
         DevicetokenFactory $devicetokenFactory
     ) {
         $this->customerFactory = $customerFactory;
-        $this->curl = $curl;
-        $this->scopeConfig = $scopeConfig;
+        $this->curlRequest = $curlRequest;
         $this->devicetokenFactory = $devicetokenFactory;
     }
 
@@ -71,15 +61,15 @@ class PushnotificationModel
     {
         $registrationIds = [];
         $sendResponse = null;
-        $customerObj = $this->customerFactory->create()->getCollection()->addAttributeToSelect("*")
-        ->addAttributeToFilter("aw_mobile_device_token", ["neq" => null])->load();
+        $customerObj = $this->customerFactory->create()->getCollection()
+        ->addAttributeToFilter("aw_mobile_device_token", ["neq" => null]);
 
         if (!empty($customerObj->getData())) {
             foreach ($customerObj->getData() as $customerObjvalue) {
                 if (isset($customerObjvalue['aw_mobile_device_token'])
                     && !empty($customerObjvalue['aw_mobile_device_token'])
                 ) {
-                        $registrationIds[] = $customerObjvalue['aw_mobile_device_token'];
+                     $registrationIds[] = $customerObjvalue['aw_mobile_device_token'];
                 }
             }
         }
@@ -106,29 +96,16 @@ class PushnotificationModel
                 'notification'  => $msg
             ];
 
-            $firebaseApiKey = $this->scopeConfig->getValue('aw_mpn/aw_mpn_setting/firebase_api_key');
-            $authorization = "Key=$firebaseApiKey";
-
-            try {
-                $this->curl->addHeader("Content-Type", "application/json");
-                $this->curl->addHeader("Authorization", $authorization);
-                $this->curl->post(self::DEFAULT_API_URL, json_encode($payload));
-                $responseCode = $this->curl->getStatus();
-                $response = $this->curl->getBody();
-            } catch (\Exception $e) {
-                throw new InputException(__('Error while sending push notification'));
-            }
-
-            if ($responseCode == 200) {
-                $sendResponse = "success";
-            } else {
-                $sendResponse = "failure";
-            }
+            $sendResponse = $this->curlRequest->request(self::DEFAULT_API_URL, json_encode($payload), 'POST');
 
             return $sendResponse;
+
         } else {
+            
             $sendResponse = "notoken";
+            
             return $sendResponse;
+
         }
     }
 }

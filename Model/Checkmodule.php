@@ -27,9 +27,9 @@ class Checkmodule extends AbstractModel
     }
 
     /**
-     * Check module status
+     * @inheritdoc
      */
-    public function checkModule()
+    public function moduleStatus()
     {
         if ($this->moduleManager->isEnabled('Aheadworks_MobilePushNotification')) {
             return true;

@@ -2,84 +2,49 @@
 
 namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification;
 
-use Aheadworks\MobilePushNotification\Model\Pushnotification\PushnotificationModel;
-use Exception;
+use Aheadworks\MobilePushNotification\Model\Pushnotification\NotificationInterface;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\App\Request\DataPersistorInterface;
-use Magento\Framework\Filesystem;
-use Magento\MediaStorage\Model\File\UploaderFactory;
-use Magento\Framework\Image\AdapterFactory;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Aheadworks\MobilePushNotification\Model\PushnotificationFactory;
-use Magento\Store\Model\StoreManagerInterface;
+use Aheadworks\MobilePushNotification\Model\Upload\Info;
+use Magento\Framework\App\Action\Action;
 
 /**
- * save push notification data
+ * Save push notification data
  */
-class Save extends \Magento\Framework\App\Action\Action
+class Save extends Action
 {
+    private const NOTIFICATIONIMAGE = "notification_image";
+    
    /**
-    * @var PushnotificationModel
+    * @var NotificationInterface
     */
-    private $pushNotification;
-
-   /**
-    * @var DataPersistorInterface
-    */
-    private $dataPersistor;
-
-   /**
-    * @var Filesystem
-    */
-    private $fileSystem;
-
-   /**
-    * @var UploaderFactory
-    */
-    private $uploaderFactory;
-
-   /**
-    * @var AdapterFactory
-    */
-    private $adapterFactory;
+    private $notificationInterface;
 
    /**
     * @var PushnotificationFactory
     */
     private $pushnotificationFactory;
 
-   /**
-    * @var StoreManagerInterface
-    */
-    private $storeManager;
+    /**
+     * @var Info
+     */
+    private $infoImage;
 
    /**
-    * @param PushnotificationModel $pushNotification
-    * @param DataPersistorInterface $dataPersistor
-    * @param Filesystem $fileSystem
-    * @param UploaderFactory $uploaderFactory
-    * @param AdapterFactory $adapterFactory
+    * @param NotificationInterface $notificationInterface
     * @param PushnotificationFactory $pushnotificationFactory
-    * @param StoreManagerInterface $storeManager
+    * @param Info $infoImage
     * @param Context $context
     */
     public function __construct(
-        PushnotificationModel $pushNotification,
-        DataPersistorInterface $dataPersistor,
-        Filesystem $fileSystem,
-        UploaderFactory $uploaderFactory,
-        AdapterFactory $adapterFactory,
+        NotificationInterface $notificationInterface,
         PushnotificationFactory $pushnotificationFactory,
-        StoreManagerInterface $storeManager,
+        Info $infoImage,
         Context $context
     ) {
-        $this->pushNotification = $pushNotification;
-        $this->dataPersistor = $dataPersistor;
-        $this->fileSystem = $fileSystem;
-        $this->uploaderFactory = $uploaderFactory;
-        $this->adapterFactory = $adapterFactory;
+        $this->notificationInterface = $notificationInterface;
         $this->pushnotificationFactory = $pushnotificationFactory;
-        $this->storeManager = $storeManager;
+        $this->infoImage = $infoImage;
         parent::__construct($context);
     }
 
@@ -91,56 +56,38 @@ class Save extends \Magento\Framework\App\Action\Action
         $resultRedirect = $this->resultRedirectFactory->create();
         $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         $data = $this->getRequest()->getPostValue();
-        $messageTitle = $data['message_title'];
-        $message = $data['message'];
-        $choose = $data['choose_action'];
-        $selectAction = $data['select_action'];
+        
+        if (!empty($data['message_title']) && !empty($data['message'])) {
+            $messageTitle = $data['message_title'];
+            $message = $data['message'];
 
-        if (isset($data['notification_image']['delete'])) {
-            if ($data['notification_image']['delete'] == 1) {
-                  $data['notification_image'] = '';
+            if (!empty($data['notification_image'])) {
+                $data['notification_image'] = self::NOTIFICATIONIMAGE.'/'.$data['notification_image']['0']['file_name'];
+                $pushnotificationImg = $this->infoImage->getMediaUrl($data['notification_image']);
+            } else {
+                $pushnotificationImg = '';
             }
-        }
 
-        if ($this->uploaderFactory->create(['fileId' => 'notification_image']) != ''
-         && !isset($data['notification_image']['delete'])) {
-            try {
-                  $uploaderFactory = $this->uploaderFactory->create(['fileId' => 'notification_image']);
-                  $uploaderFactory->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
-                  $imageAdapter = $this->adapterFactory->create();
-                  $uploaderFactory->setAllowRenameFiles(true);
-                  $uploaderFactory->setFilesDispersion(true);
-                  $mediaDirectory = $this->fileSystem->getDirectoryRead(DirectoryList::MEDIA);
-                  $destinationPath = $mediaDirectory->getAbsolutePath('aheadworks_mobilepushnotification_img');
-                  $result = $uploaderFactory->save($destinationPath);
-                if (!$result) {
-                     throw new LocalizedException(__('File cannot be saved to path: $1', $destinationPath));
-                }
-                  $imagePath = 'aheadworks_mobilepushnotification_img' . $result['file'];
-                  $data['notification_image'] = $imagePath;
-            } catch (\Exception $e) {
-                $this->messageManager->addError(__("Image not Upload Pleae Try Again"));
+            $newsModel = $this->pushnotificationFactory->create();
+            $sendNotification = $this->notificationInterface->sendNotification(
+                $messageTitle,
+                $message,
+                $pushnotificationImg
+            );
+
+            if ($sendNotification == "success") {
+                $newsModel->setData($data);
+                $newsModel->save($data);
+                $this->messageManager->addSuccessMessage(__('Notification send successfully'));
+            } elseif ($sendNotification == "notoken") {
+                $this->messageManager->addErrorMessage(__('There is no mobile device token found.'));
+            } else {
+                $this->messageManager->addErrorMessage(__('Something went wrong while sending the notification'));
             }
-        }
-        if (!empty($imagePath)) {
-            $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-            $pushnotificationImg = $mediaUrl.$imagePath;
-        } else {
-            $pushnotificationImg = '';
-        }
-         $newsModel = $this->pushnotificationFactory->create();
-         $sendNotification = $this->pushNotification->sendNotification($messageTitle, $message, $pushnotificationImg);
-
-        if ($sendNotification == "success") {
-            $newsModel->setData($data);
-            $newsModel->save($data);
-            $this->messageManager->addSuccessMessage(__('Notification send successfully'));
-        } elseif ($sendNotification == "notoken") {
-            $this->messageManager->addErrorMessage(__('There is no mobile device token found.'));
         } else {
             $this->messageManager->addErrorMessage(__('Something went wrong while sending the notification'));
         }
-
-         return $resultRedirect;
+        
+        return $resultRedirect;
     }
 }
