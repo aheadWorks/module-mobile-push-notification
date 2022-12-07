@@ -7,11 +7,7 @@
     "proprietary"
   ],
   "require": {
-    "magento/module-config": ">100.0",
-    "aheadworks/module-buildify": ">=1.1.0",
-    "aheadworks/module-token-generator": ">=0.0.1",
-    "aheadworks/module-mobile-app-connector": ">=1.0.1",
-    "magento/framework": ">100.0"
+    "aheadworks/module-mobile-app-connector": ">=1.0.1"
   },
   "autoload": {
     "files": [
