@@ -62,8 +62,9 @@ class Save extends Action
             $message = $data['message'];
 
             if (!empty($data['notification_image'])) {
-                $data['notification_image'] = self::NOTIFICATIONIMAGE.'/'.$data['notification_image']['0']['file_name'];
-                $pushnotificationImg = $this->infoImage->getMediaUrl($data['notification_image']);
+                $imgName = $data['notification_image']['0']['file_name'];
+                $data['notification_image'] = self::NOTIFICATIONIMAGE.'/'.$imgName;
+                $pushnotificationImg = $this->infoImage->getMediaUrl($imgName);
             } else {
                 $pushnotificationImg = '';
             }
