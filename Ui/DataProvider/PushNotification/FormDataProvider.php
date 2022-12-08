@@ -1,28 +1,36 @@
 <?php
 
-namespace Aheadworks\MobilePushNotification\Model;
+namespace Aheadworks\MobilePushNotification\Ui\DataProvider\PushNotification;
 
 use Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification\CollectionFactory;
 
 /**
- *  Data Provider for UI components based on push notification
+ * Form data provider for UI components based on push notification
  */
-class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+class FormDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
     /**
      * @var array
      */
     protected $loadedData;
-    // @codingStandardsIgnoreStart
+
+    /**
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param CollectionFactory $collectionFactory
+     * @param array $meta
+     * @param array $data
+     */
     public function __construct(
         $name,
         $primaryFieldName,
         $requestFieldName,
-        CollectionFactory $blogCollectionFactory,
+        CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = []
     ) {
-        $this->collection = $blogCollectionFactory->create();
+        $this->collection = $collectionFactory->create();
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
     

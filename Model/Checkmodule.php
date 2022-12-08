@@ -2,13 +2,12 @@
 
 namespace Aheadworks\MobilePushNotification\Model;
 
-use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Module\Manager;
 
 /**
  * Check module status.
  */
-class Checkmodule extends AbstractModel
+class Checkmodule
 {
     /**
      * @var Manager
@@ -27,7 +26,7 @@ class Checkmodule extends AbstractModel
     }
 
     /**
-     * @inheritdoc
+     * Check if module is enabled or not
      */
     public function moduleStatus()
     {

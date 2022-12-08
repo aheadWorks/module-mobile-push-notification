@@ -8,7 +8,7 @@ use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
+use Aheadworks\MobilePushNotification\Model\DeviceTokenFactory;
 
 /**
  * Check device token model.
@@ -16,19 +16,19 @@ use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
 class SetDeviceToken
 {
     /**
-     * @var DevicetokenFactory
+     * @var DeviceTokenFactory
      */
-    protected $devicetokenFactory;
+    protected $deviceTokenFactory;
 
     /**
      * Check device token constructor
      *
-     * @param DevicetokenFactory $devicetokenFactory
+     * @param DeviceTokenFactory $deviceTokenFactory
      */
     public function __construct(
-        DevicetokenFactory $devicetokenFactory
+        DeviceTokenFactory $deviceTokenFactory
     ) {
-        $this->devicetokenFactory = $devicetokenFactory;
+        $this->deviceTokenFactory = $deviceTokenFactory;
     }
 
     /**
@@ -42,7 +42,7 @@ class SetDeviceToken
         $message = [];
         try {
             $this->vaildateData($data);
-            $devicetokenModel = $this->devicetokenFactory->create();
+            $devicetokenModel = $this->deviceTokenFactory->create();
             $devicetokenModel->setData($data);
             $devicetokenModel->save($data);
             $response = ['message' =>  "Device token has successfully save."];

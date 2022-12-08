@@ -18,7 +18,7 @@
    </argument>
    <dataSource name="aw_pushnotification_form_data_source">
       <argument name="dataProvider" xsi:type="configurableObject">
-         <argument name="class" xsi:type="string">Aheadworks\MobilePushNotification\Model\DataProvider</argument>
+         <argument name="class" xsi:type="string">Aheadworks\MobilePushNotification\Ui\DataProvider\PushNotification\FormDataProvider</argument>
          <argument name="name" xsi:type="string">aw_pushnotification_form_data_source</argument>
          <argument name="primaryFieldName" xsi:type="string">id</argument>
          <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -49,7 +49,7 @@
                 </item>
             </argument>
             <htmlContent name="html_content">
-                <argument name="block" xsi:type="object">Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Previewnotification</argument>
+               <block class="Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Previewnotification" name="preview-notification" template="Aheadworks_MobilePushNotification::preview_notification.phtml"/>
             </htmlContent>
         </container>
       <field name="message_title">
@@ -95,7 +95,7 @@
             <settings>
                 <elementTmpl>ui/form/element/uploader/image</elementTmpl>
                 <dataType>string</dataType>
-                <label translate="true">Upload Logo</label>
+                <label translate="true">Upload Image</label>
                 <visible>true</visible>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">false</rule>
@@ -139,7 +139,7 @@
                             </option>
                             <option name="weekly" xsi:type="array">
                                 <item name="value" xsi:type="string">weekly</item>
-                                <item name="label" xsi:type="string" translate="true">weekly</item>
+                                <item name="label" xsi:type="string" translate="true">Weekly</item>
                             </option>
                             <option name="monthly" xsi:type="array">
                                 <item name="value" xsi:type="string">monthly</item>

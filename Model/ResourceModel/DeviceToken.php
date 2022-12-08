@@ -7,7 +7,7 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 /**
  * Device token resource model.
  */
-class Devicetoken extends AbstractDb
+class DeviceToken extends AbstractDb
 {
     /**
      * Define main table

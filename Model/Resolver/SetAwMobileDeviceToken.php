@@ -31,7 +31,15 @@ class SetAwMobileDeviceToken implements ResolverInterface
     }
 
     /**
-     * @inheritdoc
+     * Fetches the data and format it according to the GraphQL schema.
+     *
+     * @param Field $field
+     * @param ContextInterface $context
+     * @param ResolveInfo $info
+     * @param array|null $value
+     * @param array|null $args
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {

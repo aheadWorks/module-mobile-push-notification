@@ -1,9 +1,10 @@
 <?php
-/* @var $block \Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Previewnotification */
+/* @var $block Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Previewnotification */
 /* @var $escaper \Magento\Framework\Escaper */
 ?>
 
-<?php $previewImage = $block::PREVIEW_IMAGE; ?>
+<?php
+$previewImage = $block->getPreviewImage(); ?>
 <div class="preview-image">
     <div class="previewsection">
         <label id="previewtext"></label>

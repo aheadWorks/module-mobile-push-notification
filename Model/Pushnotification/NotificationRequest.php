@@ -2,14 +2,14 @@
 
 namespace Aheadworks\MobilePushNotification\Model\Pushnotification;
 
-use Magento\Customer\Model\CustomerFactory;
-use Aheadworks\MobilePushNotification\Model\DevicetokenFactory;
+use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
+use Aheadworks\MobilePushNotification\Model\DeviceTokenFactory;
 use Aheadworks\MobilePushNotification\Model\Api\Request\Curl;
 
 /**
- * Notification interface for fcm.
+ * Notification request for fcm.
  */
-class NotificationInterface
+class NotificationRequest
 {
     /**#@+
      * Info constants
@@ -18,7 +18,7 @@ class NotificationInterface
     /**#@-*/
 
     /**
-     * @var CustomerFactory
+     * @var CollectionFactory
      */
     private $customerFactory;
 
@@ -28,53 +28,51 @@ class NotificationInterface
     private $curlRequest;
 
     /**
-     * @var DevicetokenFactory
+     * @var DeviceTokenFactory
      */
-    private $devicetokenFactory;
+    private $deviceTokenFactory;
 
     /**
      * Push notification Model constructor
      *
-     * @param CustomerFactory $customerFactory
+     * @param CollectionFactory $customerFactory
      * @param Curl $curlRequest
-     * @param DevicetokenFactory $devicetokenFactory
+     * @param DeviceTokenFactory $deviceTokenFactory
      */
     public function __construct(
-        CustomerFactory $customerFactory,
+        CollectionFactory $customerFactory,
         Curl $curlRequest,
-        DevicetokenFactory $devicetokenFactory
+        DeviceTokenFactory $deviceTokenFactory
     ) {
         $this->customerFactory = $customerFactory;
         $this->curlRequest = $curlRequest;
-        $this->devicetokenFactory = $devicetokenFactory;
+        $this->deviceTokenFactory = $deviceTokenFactory;
     }
 
     /**
      * Send notification API
      *
-     * @param string $messageTitle
+     * @param string $title
      * @param string $message
-     * @param string $pushnotificationImg
+     * @param string $image
      * @return array
      */
-    public function sendNotification($messageTitle, $message, $pushnotificationImg)
+    public function sendNotification($title, $message, $image)
     {
         $registrationIds = [];
         $sendResponse = null;
-        $customerObj = $this->customerFactory->create()->getCollection()
-        ->addAttributeToFilter("aw_mobile_device_token", ["neq" => null]);
-
-        if (!empty($customerObj->getData())) {
-            foreach ($customerObj->getData() as $customerObjvalue) {
-                if (isset($customerObjvalue['aw_mobile_device_token'])
-                    && !empty($customerObjvalue['aw_mobile_device_token'])
+        $customerToken = $this->getCustomerToken();
+        if (!empty($customerToken->getData())) {
+            foreach ($customerToken->getData() as $customerTokenvalue) {
+                if (isset($customerTokenvalue['aw_mobile_device_token'])
+                    && !empty($customerTokenvalue['aw_mobile_device_token'])
                 ) {
-                     $registrationIds[] = $customerObjvalue['aw_mobile_device_token'];
+                     $registrationIds[] = $customerTokenvalue['aw_mobile_device_token'];
                 }
             }
         }
 
-        $devicetokenCollection = $this->devicetokenFactory->create()->getCollection();
+        $devicetokenCollection = $this->deviceTokenFactory->create()->getCollection();
         foreach ($devicetokenCollection as $devicetokenValue) {
             if (isset($devicetokenValue['device_token']) && !empty($devicetokenValue['device_token'])) {
                 $registrationIds[] = $devicetokenValue['device_token'];
@@ -83,9 +81,9 @@ class NotificationInterface
         $registrationUniqueIds = array_values(array_unique($registrationIds));
         if (!empty($registrationIds)) {
             $msg = [
-                'title' => $messageTitle,
+                'title' => $title,
                 'body' =>  $message,
-                'image' => $pushnotificationImg,
+                'image' => $image,
                 "mutable_content" => true,
                 "sound" => "Tri-tone"
             ];
@@ -107,5 +105,18 @@ class NotificationInterface
             return $sendResponse;
 
         }
+    }
+
+    /**
+     * Send customer collection of aw mobile device token
+     *
+     * @return array
+     */
+    public function getCustomerToken()
+    {
+        $AwMobileDeviceToken = $this->customerFactory->create();
+        $AwMobileDeviceToken->addAttributeToFilter("aw_mobile_device_token", ["neq" => null]);
+
+        return $AwMobileDeviceToken;
     }
 }

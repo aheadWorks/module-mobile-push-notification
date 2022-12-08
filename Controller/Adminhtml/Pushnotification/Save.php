@@ -2,7 +2,7 @@
 
 namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification;
 
-use Aheadworks\MobilePushNotification\Model\Pushnotification\NotificationInterface;
+use Aheadworks\MobilePushNotification\Model\Pushnotification\NotificationRequest;
 use Magento\Backend\App\Action\Context;
 use Aheadworks\MobilePushNotification\Model\PushnotificationFactory;
 use Aheadworks\MobilePushNotification\Model\Upload\Info;
@@ -16,9 +16,9 @@ class Save extends Action
     private const NOTIFICATIONIMAGE = "notification_image";
     
    /**
-    * @var NotificationInterface
+    * @var NotificationRequest
     */
-    private $notificationInterface;
+    private $notificationRequest;
 
    /**
     * @var PushnotificationFactory
@@ -31,18 +31,18 @@ class Save extends Action
     private $infoImage;
 
    /**
-    * @param NotificationInterface $notificationInterface
+    * @param NotificationRequest $notificationRequest
     * @param PushnotificationFactory $pushnotificationFactory
     * @param Info $infoImage
     * @param Context $context
     */
     public function __construct(
-        NotificationInterface $notificationInterface,
+        NotificationRequest $notificationRequest,
         PushnotificationFactory $pushnotificationFactory,
         Info $infoImage,
         Context $context
     ) {
-        $this->notificationInterface = $notificationInterface;
+        $this->notificationRequest = $notificationRequest;
         $this->pushnotificationFactory = $pushnotificationFactory;
         $this->infoImage = $infoImage;
         parent::__construct($context);
@@ -64,21 +64,20 @@ class Save extends Action
             if (!empty($data['notification_image'])) {
                 $imgName = $data['notification_image']['0']['file_name'];
                 $data['notification_image'] = self::NOTIFICATIONIMAGE.'/'.$imgName;
-                $pushnotificationImg = $this->infoImage->getMediaUrl($imgName);
+                $notificationImageUrl = $this->infoImage->getMediaUrl($imgName);
             } else {
-                $pushnotificationImg = '';
+                $notificationImageUrl = '';
             }
 
-            $newsModel = $this->pushnotificationFactory->create();
-            $sendNotification = $this->notificationInterface->sendNotification(
+            $notificationModel = $this->pushnotificationFactory->create();
+            $sendNotification = $this->notificationRequest->sendNotification(
                 $messageTitle,
                 $message,
-                $pushnotificationImg
+                $notificationImageUrl
             );
 
             if ($sendNotification == "success") {
-                $newsModel->setData($data);
-                $newsModel->save($data);
+                $notificationModel->setData($data)->save();
                 $this->messageManager->addSuccessMessage(__('Notification send successfully'));
             } elseif ($sendNotification == "notoken") {
                 $this->messageManager->addErrorMessage(__('There is no mobile device token found.'));

@@ -1,4 +1,5 @@
 <?php
+
 namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification;
 
 /**
@@ -6,12 +7,15 @@ namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification;
  */
 class Previewnotification extends \Magento\Backend\Block\Template
 {
+    private const PREVIEW_IMAGE = 'images/preview.png';
 
    /**
-    * Block template.
-    * @var string
+    * Get preview image
+    *
+    * @return string
     */
-    protected $_template = 'preview_notification.phtml';
-
-    public const PREVIEW_IMAGE = 'images/preview.png';
+    public function getPreviewImage()
+    {
+        return self::PREVIEW_IMAGE;
+    }
 }
