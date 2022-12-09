@@ -2,14 +2,13 @@
 namespace Aheadworks\MobilePushNotification\Model\Upload;
 
 use Magento\MediaStorage\Model\File\UploaderFactory;
+use Aheadworks\MobilePushNotification\Model\Upload\UploaderPath;
 
 /**
  *  Upload image for push notification
  */
 class ImageUploader
 {
-    private const NOTIFICATIONIMAGE = "notification_image";
-
     /**
      * @var UploaderFactory
      */
@@ -21,14 +20,22 @@ class ImageUploader
     private $info;
 
     /**
+     * @var UploaderPath
+     */
+    private $uploaderPath;
+
+    /**
      * @param UploaderFactory $uploaderFactory
+     * @param UploaderPath $uploaderPath
      * @param Info $info
      */
     public function __construct(
         UploaderFactory $uploaderFactory,
+        UploaderPath $uploaderPath,
         Info $info
     ) {
         $this->uploaderFactory = $uploaderFactory;
+        $this->uploaderPath = $uploaderPath;
         $this->info = $info;
     }
 
@@ -44,7 +51,7 @@ class ImageUploader
             $result = ['file' => '', 'size' => '', 'name' => '', 'path' => '', 'type' => ''];
             $mediaDirectory = $this->info
                 ->getMediaDirectory()
-                ->getAbsolutePath(self::NOTIFICATIONIMAGE);
+                ->getAbsolutePath($this->uploaderPath->getPathName());
             $uploader = $this->uploaderFactory->create(['fileId' => $fileId]);
             $uploader
                 ->setAllowRenameFiles(true)

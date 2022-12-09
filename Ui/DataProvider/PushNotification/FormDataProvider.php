@@ -2,7 +2,7 @@
 
 namespace Aheadworks\MobilePushNotification\Ui\DataProvider\PushNotification;
 
-use Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification\CollectionFactory;
+use Aheadworks\MobilePushNotification\Model\ResourceModel\PushNotification\CollectionFactory;
 
 /**
  * Form data provider for UI components based on push notification

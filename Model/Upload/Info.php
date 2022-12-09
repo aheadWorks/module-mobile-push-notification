@@ -5,6 +5,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 use Magento\Framework\UrlInterface;
+use Aheadworks\MobilePushNotification\Model\Upload\UploaderPath;
 
 /**
  * Info for media image
@@ -28,15 +29,23 @@ class Info
     protected $urlBuilder;
 
     /**
+     * @var UploaderPath
+     */
+    private $uploaderPath;
+
+    /**
      * @param UrlInterface $urlBuilder
      * @param Filesystem $filesystem
+     * @param UploaderPath $uploaderPath
      */
     public function __construct(
         UrlInterface $urlBuilder,
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        UploaderPath $uploaderPath
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->filesystem = $filesystem;
+        $this->uploaderPath = $uploaderPath;
     }
     /**
      * Get WriteInterface instance
@@ -60,8 +69,7 @@ class Info
      */
     public function getMediaUrl($imagename)
     {
-        $folderName = self::NOTIFICATIONIMAGE;
-        $path = $folderName . '/' . $imagename;
+        $path = $this->uploaderPath->getPathName() . '/' . $imagename;
         $imageUrl = $this->urlBuilder
             ->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]) . $path;
         return $imageUrl;

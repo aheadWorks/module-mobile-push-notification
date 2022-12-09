@@ -12,7 +12,7 @@
       </item>
       <item name="spinner" xsi:type="string">general_information</item>
       <item name="buttons" xsi:type="array">
-         <item name="save" xsi:type="string">Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Button\Save</item>
+         <item name="save" xsi:type="string">Aheadworks\MobilePushNotification\Block\Adminhtml\PushNotification\Button\Save</item>
       </item>
       <item name="template" xsi:type="string">templates/form/collapsible</item>
    </argument>
@@ -49,7 +49,7 @@
                 </item>
             </argument>
             <htmlContent name="html_content">
-               <block class="Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Previewnotification" name="preview-notification" template="Aheadworks_MobilePushNotification::preview_notification.phtml"/>
+               <block class="Aheadworks\MobilePushNotification\Block\Adminhtml\PushNotification\PreviewNotification" name="preview-notification" template="Aheadworks_MobilePushNotification::preview_notification.phtml"/>
             </htmlContent>
         </container>
       <field name="message_title">
@@ -115,77 +115,29 @@
                 </imageUploader>
             </formElements>
         </field>
-        <field name="schedule_time" formElement="select">
-            <settings>
-                <dataType>text</dataType>
-                <label translate="true">Choose when to send</label>
-                <dataScope>schedule_time</dataScope>
-            </settings>
-            <formElements>
-                <select>
-                    <settings>
-                        <options>
-                            <option name="immediately" xsi:type="array">
-                                <item name="value" xsi:type="string">immediately</item>
-                                <item name="label" xsi:type="string" translate="true">Immediately</item>
-                            </option>
-                            <option name="once" xsi:type="array">
-                                <item name="value" xsi:type="string">once</item>
-                                <item name="label" xsi:type="string" translate="true">Once</item>
-                            </option>
-                            <option name="daily" xsi:type="array">
-                                <item name="value" xsi:type="string">daily</item>
-                                <item name="label" xsi:type="string" translate="true">Daily</item>
-                            </option>
-                            <option name="weekly" xsi:type="array">
-                                <item name="value" xsi:type="string">weekly</item>
-                                <item name="label" xsi:type="string" translate="true">Weekly</item>
-                            </option>
-                            <option name="monthly" xsi:type="array">
-                                <item name="value" xsi:type="string">monthly</item>
-                                <item name="label" xsi:type="string" translate="true">Monthly</item>
-                            </option>
-                        </options>
-                        <caption translate="true">-- Please Select --</caption>
-                    </settings>
-                </select>
-            </formElements>
-        </field>
+         <field name="schedule_time" formElement="select">
+            <argument name="data" xsi:type="array">
+               <item name="options" xsi:type="object">Aheadworks\MobilePushNotification\Model\Source\ScheduleTime</item>
+               <item name="config" xsi:type="array">
+                  <item name="label" xsi:type="string" translate="true">Choose when to send</item>
+                  <item name="dataType" xsi:type="string">text</item>
+                  <item name="formElement" xsi:type="string">select</item>
+                  <item name="component" xsi:type="string">Magento_Ui/js/form/element/select</item>
+                  <item name="template" xsi:type="string">ui/form/field</item>
+               </item>
+            </argument>
+         </field>
         <field name="open_page" formElement="select">
-            <settings>
-                <dataType>text</dataType>
-                <label translate="true">Select Action</label>
-                <dataScope>open_page</dataScope>
-            </settings>
-            <formElements>
-                <select>
-                    <settings>
-                        <options>
-                            <option name="openaproduct" xsi:type="array">
-                                <item name="value" xsi:type="string">openaproduct</item>
-                                <item name="label" xsi:type="string" translate="true">Open a product</item>
-                            </option>
-                            <option name="openacollection" xsi:type="array">
-                                <item name="value" xsi:type="string">openacollection</item>
-                                <item name="label" xsi:type="string" translate="true">Open a collection</item>
-                            </option>
-                            <option name="homepage" xsi:type="array">
-                                <item name="value" xsi:type="string">homepage</item>
-                                <item name="label" xsi:type="string" translate="true">Home Page</item>
-                            </option>
-                            <option name="categories" xsi:type="array">
-                                <item name="value" xsi:type="string">categories</item>
-                                <item name="label" xsi:type="string" translate="true">Categories</item>
-                            </option>
-                            <option name="my_profile" xsi:type="array">
-                                <item name="value" xsi:type="string">my_profile</item>
-                                <item name="label" xsi:type="string" translate="true">My Profile</item>
-                            </option>
-                        </options>
-                        <caption translate="true">-- Select Feature To Open --</caption>
-                    </settings>
-                </select>
-            </formElements>
+         <argument name="data" xsi:type="array">
+               <item name="options" xsi:type="object">Aheadworks\MobilePushNotification\Model\Source\OpenPageOptions</item>
+               <item name="config" xsi:type="array">
+                  <item name="label" xsi:type="string" translate="true">Choose when to send</item>
+                  <item name="dataType" xsi:type="string">text</item>
+                  <item name="formElement" xsi:type="string">select</item>
+                  <item name="component" xsi:type="string">Magento_Ui/js/form/element/select</item>
+                  <item name="template" xsi:type="string">ui/form/field</item>
+               </item>
+            </argument>
         </field>
    </fieldset>
 </form>

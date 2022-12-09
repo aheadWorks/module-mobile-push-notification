@@ -1,27 +1,26 @@
 <?php
 
-namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification;
+namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\PushNotification;
 
-use Aheadworks\MobilePushNotification\Model\Pushnotification\NotificationRequest;
+use Aheadworks\MobilePushNotification\Model\PushNotification\NotificationRequest;
 use Magento\Backend\App\Action\Context;
-use Aheadworks\MobilePushNotification\Model\PushnotificationFactory;
+use Aheadworks\MobilePushNotification\Model\PushNotificationFactory;
 use Aheadworks\MobilePushNotification\Model\Upload\Info;
 use Magento\Framework\App\Action\Action;
+use Aheadworks\MobilePushNotification\Model\Upload\UploaderPath;
 
 /**
  * Save push notification data
  */
 class Save extends Action
 {
-    private const NOTIFICATIONIMAGE = "notification_image";
-    
    /**
     * @var NotificationRequest
     */
     private $notificationRequest;
 
    /**
-    * @var PushnotificationFactory
+    * @var PushNotificationFactory
     */
     private $pushnotificationFactory;
 
@@ -30,21 +29,29 @@ class Save extends Action
      */
     private $infoImage;
 
+    /**
+     * @var UploaderPath
+     */
+    private $uploaderPath;
+
    /**
     * @param NotificationRequest $notificationRequest
-    * @param PushnotificationFactory $pushnotificationFactory
+    * @param PushNotificationFactory $pushnotificationFactory
     * @param Info $infoImage
+    * @param UploaderPath $uploaderPath
     * @param Context $context
     */
     public function __construct(
         NotificationRequest $notificationRequest,
-        PushnotificationFactory $pushnotificationFactory,
+        PushNotificationFactory $pushnotificationFactory,
         Info $infoImage,
+        UploaderPath $uploaderPath,
         Context $context
     ) {
         $this->notificationRequest = $notificationRequest;
         $this->pushnotificationFactory = $pushnotificationFactory;
         $this->infoImage = $infoImage;
+        $this->uploaderPath = $uploaderPath;
         parent::__construct($context);
     }
 
@@ -63,7 +70,7 @@ class Save extends Action
 
             if (!empty($data['notification_image'])) {
                 $imgName = $data['notification_image']['0']['file_name'];
-                $data['notification_image'] = self::NOTIFICATIONIMAGE.'/'.$imgName;
+                $data['notification_image'] = $this->uploaderPath->getPathName().'/'.$imgName;
                 $notificationImageUrl = $this->infoImage->getMediaUrl($imgName);
             } else {
                 $notificationImageUrl = '';

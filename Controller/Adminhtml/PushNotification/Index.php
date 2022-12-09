@@ -1,6 +1,6 @@
 <?php
 
-namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification;
+namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\PushNotification;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;

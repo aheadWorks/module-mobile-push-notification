@@ -1,9 +1,9 @@
 <?php
-namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification\NotificationImage;
+namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\PushNotification\NotificationImage;
 
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
-use Aheadworks\MobilePushNotification\Controller\Adminhtml\Pushnotification\AbstractAction;
+use Aheadworks\MobilePushNotification\Controller\Adminhtml\PushNotification\AbstractAction;
 use Magento\Backend\App\Action\Context;
 use Aheadworks\MobilePushNotification\Model\Upload\ImageUploader;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification;
+namespace Aheadworks\MobilePushNotification\Block\Adminhtml\PushNotification;
 
 /**
  * Preview notification on image
  */
-class Previewnotification extends \Magento\Backend\Block\Template
+class PreviewNotification extends \Magento\Backend\Block\Template
 {
     private const PREVIEW_IMAGE = 'images/preview.png';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification;
+namespace Aheadworks\MobilePushNotification\Model\ResourceModel\PushNotification;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
@@ -15,8 +15,8 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init(
-            \Aheadworks\MobilePushNotification\Model\Pushnotification::class,
-            \Aheadworks\MobilePushNotification\Model\ResourceModel\Pushnotification::class
+            \Aheadworks\MobilePushNotification\Model\PushNotification::class,
+            \Aheadworks\MobilePushNotification\Model\ResourceModel\PushNotification::class
         );
     }
 }

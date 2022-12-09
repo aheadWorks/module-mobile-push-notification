@@ -1,10 +1,11 @@
 <?php
 
-namespace Aheadworks\MobilePushNotification\Model\Pushnotification;
+namespace Aheadworks\MobilePushNotification\Model\PushNotification;
 
-use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
 use Aheadworks\MobilePushNotification\Model\DeviceTokenFactory;
 use Aheadworks\MobilePushNotification\Model\Api\Request\Curl;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 /**
  * Notification request for fcm.
@@ -18,11 +19,6 @@ class NotificationRequest
     /**#@-*/
 
     /**
-     * @var CollectionFactory
-     */
-    private $customerFactory;
-
-    /**
      * @var Curl
      */
     private $curlRequest;
@@ -33,20 +29,33 @@ class NotificationRequest
     private $deviceTokenFactory;
 
     /**
+     * @var CustomerRepositoryInterface
+     */
+    private $customerRepository;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+
+    /**
      * Push notification Model constructor
      *
-     * @param CollectionFactory $customerFactory
      * @param Curl $curlRequest
      * @param DeviceTokenFactory $deviceTokenFactory
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        CollectionFactory $customerFactory,
         Curl $curlRequest,
-        DeviceTokenFactory $deviceTokenFactory
+        DeviceTokenFactory $deviceTokenFactory,
+        CustomerRepositoryInterface $customerRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
-        $this->customerFactory = $customerFactory;
         $this->curlRequest = $curlRequest;
         $this->deviceTokenFactory = $deviceTokenFactory;
+        $this->customerRepository = $customerRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
@@ -61,23 +70,14 @@ class NotificationRequest
     {
         $registrationIds = [];
         $sendResponse = null;
-        $customerToken = $this->getCustomerToken();
-        if (!empty($customerToken->getData())) {
-            foreach ($customerToken->getData() as $customerTokenvalue) {
-                if (isset($customerTokenvalue['aw_mobile_device_token'])
-                    && !empty($customerTokenvalue['aw_mobile_device_token'])
-                ) {
-                     $registrationIds[] = $customerTokenvalue['aw_mobile_device_token'];
-                }
-            }
-        }
-
+        $registrationIds = $this->getCustomerToken();
         $devicetokenCollection = $this->deviceTokenFactory->create()->getCollection();
         foreach ($devicetokenCollection as $devicetokenValue) {
             if (isset($devicetokenValue['device_token']) && !empty($devicetokenValue['device_token'])) {
                 $registrationIds[] = $devicetokenValue['device_token'];
             }
         }
+
         $registrationUniqueIds = array_values(array_unique($registrationIds));
         if (!empty($registrationIds)) {
             $msg = [
@@ -95,13 +95,9 @@ class NotificationRequest
             ];
 
             $sendResponse = $this->curlRequest->request(self::DEFAULT_API_URL, json_encode($payload), 'POST');
-
             return $sendResponse;
-
         } else {
-            
             $sendResponse = "notoken";
-            
             return $sendResponse;
 
         }
@@ -114,9 +110,20 @@ class NotificationRequest
      */
     public function getCustomerToken()
     {
-        $AwMobileDeviceToken = $this->customerFactory->create();
-        $AwMobileDeviceToken->addAttributeToFilter("aw_mobile_device_token", ["neq" => null]);
-
+        $AwMobileDeviceToken = [];
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter('aw_mobile_device_token', "", 'neq')->create();
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $customerList = $this->customerRepository->getList($searchCriteria)->getItems();
+        foreach ($customerList as $customerListValue) {
+            $customAttribute = $customerListValue->getCustomAttributes();
+            if (isset($customAttribute['aw_mobile_device_token'])
+                && !empty($customAttribute['aw_mobile_device_token'])) {
+                $AwMobileDeviceTokenData = $customAttribute['aw_mobile_device_token'];
+                if (!empty($AwMobileDeviceTokenData->getValue())) {
+                    $AwMobileDeviceToken[] = $AwMobileDeviceTokenData->getValue();
+                }
+            }
+        }
         return $AwMobileDeviceToken;
     }
 }

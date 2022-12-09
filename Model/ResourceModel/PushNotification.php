@@ -7,7 +7,7 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 /**
  * Push notification resource model.
  */
-class Pushnotification extends AbstractDb
+class PushNotification extends AbstractDb
 {
     /**
      * Define main table

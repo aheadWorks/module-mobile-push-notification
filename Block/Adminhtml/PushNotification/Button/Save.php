@@ -1,5 +1,5 @@
 <?php
-namespace Aheadworks\MobilePushNotification\Block\Adminhtml\Pushnotification\Button;
+namespace Aheadworks\MobilePushNotification\Block\Adminhtml\PushNotification\Button;
 
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 

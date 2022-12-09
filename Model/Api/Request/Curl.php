@@ -5,6 +5,7 @@ use Magento\Framework\HTTP\Adapter\CurlFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Json\Helper\Data;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Laminas\Http\Response;
 
 /**
@@ -28,6 +29,11 @@ class Curl
     private $jsonHelper;
 
     /**
+     * @var EncryptorInterface
+     */
+    protected $encryptor;
+
+    /**
      * @var Response
      */
     private $response;
@@ -36,17 +42,20 @@ class Curl
      * @param CurlFactory $curlFactory
      * @param ScopeConfigInterface $scopeConfig
      * @param Data $jsonHelper
+     * @param EncryptorInterface $encryptor
      * @param Response $response
      */
     public function __construct(
         CurlFactory $curlFactory,
         ScopeConfigInterface $scopeConfig,
         Data $jsonHelper,
+        EncryptorInterface $encryptor,
         Response $response
     ) {
         $this->curlFactory = $curlFactory;
         $this->scopeConfig = $scopeConfig;
         $this->jsonHelper = $jsonHelper;
+        $this->encryptor = $encryptor;
         $this->response = $response;
     }
 
@@ -98,7 +107,7 @@ class Curl
     private function getHeaders()
     {
         $headers = [];
-        $firebaseApiKey = $this->scopeConfig->getValue('aw_mpn/aw_mpn_setting/firebase_api_key');
+        $firebaseApiKey = $this->getFireBaseApiKey();
         $authorization = "Key=$firebaseApiKey";
         $headersData = [
             'Content-Type' => 'application/json',
@@ -110,5 +119,22 @@ class Curl
         }
 
         return $headers;
+    }
+
+    /**
+     * Get fire base api key
+     *
+     * @param string $scope
+     * @return string
+     */
+    public function getFireBaseApiKey($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+    {
+        $secret = $this->scopeConfig->getValue(
+            'aw_mpn/aw_mpn_setting/firebase_api_key',
+            $scope
+        );
+        $secret = $this->encryptor->decrypt($secret);
+
+        return $secret;
     }
 }
