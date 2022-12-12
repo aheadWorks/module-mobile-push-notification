@@ -5,6 +5,7 @@ namespace Aheadworks\MobilePushNotification\Controller\Adminhtml\PushNotificatio
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Aheadworks\MobileAppConnector\Controller\Adminhtml\Preferences\AbstractAction;
+use Magento\Framework\Controller\ResultInterface;
 
 /**
  * Push notification index controller
@@ -36,7 +37,7 @@ class Index extends AbstractAction
     /**
      * Push notification index action
      *
-     * @return string
+     * @return ResultInterface
      */
     public function execute()
     {
