@@ -35,6 +35,7 @@ class SetDeviceToken
      * Execute device token
      *
      * @param array $data
+     * @return array
      * @throws GraphQlInputException
      */
     public function execute(array $data = null)
@@ -57,6 +58,7 @@ class SetDeviceToken
      * Handle bad request.
      *
      * @param array $data
+     * @return string
      * @throws LocalizedException
      */
     private function vaildateData(array $data = null)

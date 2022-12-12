@@ -80,6 +80,8 @@ class ExternalId implements DataPatchInterface
 
     /**
      * Run code inside patch
+     *
+     * @return string[]
      */
     public function apply()
     {

@@ -28,7 +28,7 @@ class Checkmodule
     /**
      * Module status.
      *
-     * @return string
+     * @return boolean
      */
     public function moduleStatus()
     {

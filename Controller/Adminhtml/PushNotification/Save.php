@@ -58,7 +58,7 @@ class Save extends Action
     /**
      * Push notification index action
      *
-     * @return string
+     * @return \Magento\Framework\Controller\ResultInterface
      */
     public function execute()
     {
