@@ -65,7 +65,7 @@ class Curl
      * @param string $url
      * @param array $params
      * @param string $method
-     * @return Response
+     * @return string
      * @throws LocalizedException
      * @throws \Exception
      */

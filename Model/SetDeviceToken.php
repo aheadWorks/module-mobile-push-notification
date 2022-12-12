@@ -58,7 +58,7 @@ class SetDeviceToken
      * Handle bad request.
      *
      * @param array $data
-     * @return string
+     * @return void
      * @throws LocalizedException
      */
     private function vaildateData(array $data = null)
