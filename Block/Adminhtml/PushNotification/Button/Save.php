@@ -10,6 +10,8 @@ class Save implements ButtonProviderInterface
 {
     /**
      * Get button data on push notification
+     *
+     * @return string
      */
     public function getButtonData()
     {

@@ -57,6 +57,8 @@ class Save extends Action
 
     /**
      * Push notification index action
+     *
+     * @return string
      */
     public function execute()
     {

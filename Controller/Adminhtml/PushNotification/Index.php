@@ -35,6 +35,8 @@ class Index extends AbstractAction
 
     /**
      * Push notification index action
+     *
+     * @return string
      */
     public function execute()
     {

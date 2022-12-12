@@ -26,7 +26,9 @@ class Checkmodule
     }
 
     /**
-     * Check if module is enabled or not
+     * Module status.
+     *
+     * @return string
      */
     public function moduleStatus()
     {
