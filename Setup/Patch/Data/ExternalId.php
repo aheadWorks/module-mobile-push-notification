@@ -83,12 +83,12 @@ class ExternalId implements DataPatchInterface
                 CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                 'aw_mobile_device_token',
                 [
-                    'label' => 'Device Token',
+                    'label' => 'devicetoken',
                     'required' => 0,
                     'position' => 100,
                     'system' => 0,
                     'input'        => 'hidden',
-                    'visible'      => false,
+                    'visible'      => 0,
                     'user_defined' => 0,
                     'is_used_in_grid' => 0,
                     'is_visible_in_grid' => 0,
@@ -112,5 +112,7 @@ class ExternalId implements DataPatchInterface
         }
 
         $this->moduleDataSetup->getConnection()->endSetup();
+
+        return $this;
     }
 }
