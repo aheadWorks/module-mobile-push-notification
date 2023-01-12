@@ -1,0 +1,15 @@
+<?php
+/* @var $block Aheadworks\MobilePushNotification\Block\Adminhtml\PushNotification\PreviewNotification */
+/* @var $escaper \Magento\Framework\Escaper */
+?>
+
+<?php
+$previewImage = $block->getPreviewImage(); ?>
+<div class="preview-image">
+    <div class="previewsection">
+        <label id="previewtext"></label>
+        <label id="previewmsg"></label>
+    </div>
+    <?php $imgUrl = $block->getViewFileUrl('Aheadworks_MobilePushNotification::'.$previewImage); ?>
+    <image src='<?= $escaper->escapeUrl($imgUrl); ?>'/>
+</div>

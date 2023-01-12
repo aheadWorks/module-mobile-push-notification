@@ -1,0 +1,20 @@
+{
+  "name": "aheadworks/module-mobile-push-notification",
+  "description": "N/A",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": [
+    "proprietary"
+  ],
+  "require": {
+    "aheadworks/module-mobile-app-connector": ">=1.0.1"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Aheadworks\\MobilePushNotification\\": ""
+    }
+  }
+}
