@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Aheadworks\MobilePushNotification\Setup\Patch\Data;
 
-use Exception;
-use Psr\Log\LoggerInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Customer\Model\ResourceModel\Attribute as AttributeResource;
 use Magento\Customer\Setup\CustomerSetup;
@@ -34,28 +33,20 @@ class ExternalId implements DataPatchInterface
     private $attributeResource;
 
     /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * Constructor
      *
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param CustomerSetupFactory $customerSetupFactory
      * @param AttributeResource $attributeResource
-     * @param LoggerInterface $logger
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
         CustomerSetupFactory $customerSetupFactory,
-        AttributeResource $attributeResource,
-        LoggerInterface $logger
+        AttributeResource $attributeResource
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
         $this->customerSetup = $customerSetupFactory->create(['setup' => $moduleDataSetup]);
         $this->attributeResource = $attributeResource;
-        $this->logger = $logger;
     }
 
     /**
@@ -116,8 +107,8 @@ class ExternalId implements DataPatchInterface
             $attribute = $this->customerSetup->getEavConfig()
             ->getAttribute(CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER, 'aw_mobile_device_token');
             $this->attributeResource->save($attribute);
-        } catch (Exception $e) {
-            $this->logger->err($e->getMessage());
+        } catch (LocalizedException $e) {
+            throw new LocalizedException(__($e->getMessage()));
         }
 
         $this->moduleDataSetup->getConnection()->endSetup();
