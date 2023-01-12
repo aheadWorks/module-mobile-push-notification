@@ -1,118 +1,135 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Aheadworks\MobilePushNotification\Setup\Patch\Data;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Customer\Api\CustomerMetadataInterface;
-use Magento\Customer\Model\ResourceModel\Attribute as AttributeResource;
-use Magento\Customer\Setup\CustomerSetup;
-use Magento\Customer\Setup\CustomerSetupFactory;
+use Magento\Catalog\Ui\DataProvider\Product\ProductCollectionFactory;
+use Magento\Customer\Model\Customer;
+use Magento\Eav\Model\Config;
+use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
+use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 
 /**
- * Add aw mobile device token attribute in customer
+ * Add aw mobile device token attribute in customer.
  */
 class ExternalId implements DataPatchInterface
 {
-    /**
-     * @var ModuleDataSetupInterface
-     */
+   /**
+    * @var ModuleDataSetupInterface
+    */
     private $moduleDataSetup;
 
-    /**
-     * @var CustomerSetup
-     */
-    private $customerSetup;
-
-    /**
-     * @var AttributeResource
-     */
+   /**
+    * @var EavSetupFactory
+    */
+    private $eavSetupFactory;
+   
+   /**
+    * @var ProductCollectionFactory
+    */
+    private $productCollectionFactory;
+   
+   /**
+    * @var Config
+    */
+    private $eavConfig;
+   
+   /**
+    * @var \Magento\Customer\Model\ResourceModel\Attribute
+    */
     private $attributeResource;
 
-    /**
-     * Constructor
-     *
-     * @param ModuleDataSetupInterface $moduleDataSetup
-     * @param CustomerSetupFactory $customerSetupFactory
-     * @param AttributeResource $attributeResource
-     */
+   /**
+    * CustomerAttribute Constructor
+    * @param EavSetupFactory $eavSetupFactory
+    * @param Config $eavConfig
+    * @param \Magento\Customer\Model\ResourceModel\Attribute $attributeResource
+    * @param \Magento\Framework\Setup\ModuleDataSetupInterface $moduleDataSetup
+    */
     public function __construct(
-        ModuleDataSetupInterface $moduleDataSetup,
-        CustomerSetupFactory $customerSetupFactory,
-        AttributeResource $attributeResource
+        EavSetupFactory $eavSetupFactory,
+        Config $eavConfig,
+        \Magento\Customer\Model\ResourceModel\Attribute $attributeResource,
+        \Magento\Framework\Setup\ModuleDataSetupInterface $moduleDataSetup
     ) {
-        $this->moduleDataSetup = $moduleDataSetup;
-        $this->customerSetup = $customerSetupFactory->create(['setup' => $moduleDataSetup]);
+        $this->eavSetupFactory = $eavSetupFactory;
+        $this->eavConfig = $eavConfig;
         $this->attributeResource = $attributeResource;
+        $this->moduleDataSetup = $moduleDataSetup;
     }
 
-    /**
-     * Get array of patches that have to be executed prior to this.
-     *
-     * @return string[]
-     */
-    public static function getDependencies(): array
-    {
-        return [];
-    }
-
-    /**
-     * Get aliases (previous names) for the patch.
-     *
-     * @return string[]
-     */
-    public function getAliases(): array
-    {
-        return [];
-    }
-
-    /**
-     * Run code inside patch
-     *
-     * @return string[]
-     */
+   /**
+    * Run code inside patch
+    *
+    * @return string[]
+    */
     public function apply()
     {
         $this->moduleDataSetup->getConnection()->startSetup();
-
-        try {
-            $this->customerSetup->addAttribute(
-                CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
-                'aw_mobile_device_token',
-                [
-                    'label' => 'devicetoken',
-                    'required' => 0,
-                    'position' => 100,
-                    'system' => 0,
-                    'input'        => 'hidden',
-                    'visible'      => 0,
-                    'user_defined' => 0,
-                    'is_used_in_grid' => 0,
-                    'is_visible_in_grid' => 0,
-                    'is_filterable_in_grid' => 0,
-                    'is_searchable_in_grid' => 0,
-                ]
-            );
-
-            $this->customerSetup->addAttributeToSet(
-                CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
-                CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER,
-                null,
-                'aw_mobile_device_token'
-            );
-
-            $attribute = $this->customerSetup->getEavConfig()
-            ->getAttribute(CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER, 'aw_mobile_device_token');
-            $this->attributeResource->save($attribute);
-        } catch (LocalizedException $e) {
-            throw new LocalizedException(__($e->getMessage()));
-        }
-
+        $this->addDeviceTokenAttribute();
         $this->moduleDataSetup->getConnection()->endSetup();
+    }
 
-        return $this;
+   /**
+    * Add device token attribute
+    *
+    * @throws \Magento\Framework\Exception\AlreadyExistsException
+    * @throws \Magento\Framework\Exception\LocalizedException
+    * @throws \Zend_Validate_Exception
+    */
+    public function addDeviceTokenAttribute()
+    {
+        $eavSetup = $this->eavSetupFactory->create();
+        $eavSetup->addAttribute(
+            \Magento\Customer\Model\Customer::ENTITY,
+            'aw_mobile_device_token',
+            [
+                'type' => 'varchar',
+                'label' => 'Device Token',
+                'input' => 'hidden',
+                'required' => 0,
+                'visible' => 0,
+                'user_defined' => 1,
+                'sort_order' => 999,
+                'position' => 999,
+                'system' => 0,
+                'is_used_in_grid' => 0,
+                'is_visible_in_grid' => 0,
+                'is_filterable_in_grid' => 0,
+                'is_searchable_in_grid' => 0,
+            ]
+        );
+
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId(Customer::ENTITY);
+        $attributeGroupId = $eavSetup->getDefaultAttributeGroupId(Customer::ENTITY);
+
+        $attribute = $this->eavConfig->getAttribute(Customer::ENTITY, 'aw_mobile_device_token');
+        $attribute->setData('attribute_set_id', $attributeSetId);
+        $attribute->setData('attribute_group_id', $attributeGroupId);
+
+        $this->attributeResource->save($attribute);
+    }
+
+   /**
+    * Get array of patches that have to be executed prior to this.
+    *
+    * @return string[]
+    */
+    public static function getDependencies()
+    {
+        return [];
+    }
+
+   /**
+    * Get aliases (previous names) for the patch.
+    *
+    * @return string[]
+    */
+    public function getAliases()
+    {
+        return [];
     }
 }
