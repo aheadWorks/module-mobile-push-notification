@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Aheadworks_MobilePushNotification::app_notification" title="Application Notification" module="Aheadworks_MobilePushNotification" sortOrder="60" parent="Aheadworks_MobileAppConnector::general" resource="Aheadworks_MobilePushNotification::app_notification"/>
+        <add id="Aheadworks_MobilePushNotification::push_notification" title="Push Notification" module="Aheadworks_MobilePushNotification" sortOrder="50" parent="Aheadworks_MobilePushNotification::app_notification" action="mobilepushnotification/pushnotification/index" resource="Aheadworks_MobilePushNotification::push_notification"/>
+    </menu>
+</config>

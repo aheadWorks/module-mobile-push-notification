@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Aheadworks_MobilePushNotification::config_aw_mpn" title="Aheadworks Mobile Push Notification" />
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Aheadworks_MobileAppConnector::general" title="MobileAppConnector by Aheadworks" sortOrder="10">
+                    <resource id="Aheadworks_MobilePushNotification::push_notification" title="Push Notification" sortOrder="20" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

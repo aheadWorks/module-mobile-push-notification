@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+   <argument name="data" xsi:type="array">
+      <item name="js_config" xsi:type="array">
+         <item name="provider" xsi:type="string">aw_pushnotification_form.aw_pushnotification_form_data_source</item>
+         <item name="deps" xsi:type="string">aw_pushnotification_form.aw_pushnotification_form_data_source</item>
+      </item>
+      <item name="label" xsi:type="string" translate="true">General Information</item>
+      <item name="config" xsi:type="array">
+         <item name="dataScope" xsi:type="string">data</item>
+         <item name="namespace" xsi:type="string">aw_pushnotification_form</item>
+      </item>
+      <item name="spinner" xsi:type="string">general_information</item>
+      <item name="buttons" xsi:type="array">
+         <item name="save" xsi:type="string">Aheadworks\MobilePushNotification\Block\Adminhtml\PushNotification\Button\Save</item>
+      </item>
+      <item name="template" xsi:type="string">templates/form/collapsible</item>
+   </argument>
+   <dataSource name="aw_pushnotification_form_data_source">
+      <argument name="dataProvider" xsi:type="configurableObject">
+         <argument name="class" xsi:type="string">Aheadworks\MobilePushNotification\Ui\DataProvider\PushNotification\FormDataProvider</argument>
+         <argument name="name" xsi:type="string">aw_pushnotification_form_data_source</argument>
+         <argument name="primaryFieldName" xsi:type="string">id</argument>
+         <argument name="requestFieldName" xsi:type="string">id</argument>
+         <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+               <item name="submit_url" xsi:type="url" path="*/*/save" />
+            </item>
+         </argument>
+      </argument>
+      <argument name="data" xsi:type="array">
+         <item name="js_config" xsi:type="array">
+            <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+         </item>
+      </argument>
+   </dataSource>
+   <fieldset name="general_information">
+      <argument name="data" xsi:type="array">
+         <item name="config" xsi:type="array">
+            <item name="collapsible" xsi:type="boolean">false</item>
+            <item name="label" xsi:type="string" translate="true">Push Notification can only be sent once app is live</item>
+            <item name="sortOrder" xsi:type="number">20</item>
+         </item>
+      </argument>
+      <container name="preview_notification_image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="string">1</item>
+                </item>
+            </argument>
+            <htmlContent name="html_content">
+               <block class="Aheadworks\MobilePushNotification\Block\Adminhtml\PushNotification\PreviewNotification" name="preview-notification" template="Aheadworks_MobilePushNotification::preview_notification.phtml"/>
+            </htmlContent>
+        </container>
+      <field name="message_title">
+         <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+               <item name="dataType" xsi:type="string">text</item>
+               <item name="label" xsi:type="string" translate="true">Message Title</item>
+               <item name="formElement" xsi:type="string">input</item>
+               <item name="source" xsi:type="string">message_title</item>
+               <item name="dataScope" xsi:type="string">message_title</item>
+               <item name="additionalClasses" xsi:type="array">
+                  <item name="aw-message-title" xsi:type="boolean">true</item>
+               </item>
+               <item name="validation" xsi:type="array">
+                  <item name="required-entry" xsi:type="boolean">true</item>
+               </item>
+            </item>
+         </argument>
+      </field>
+      <field name="message">
+         <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+               <item name="dataType" xsi:type="string">text</item>
+               <item name="formElement" xsi:type="string">textarea</item>
+               <item name="label" xsi:type="string" translate="true">Message</item>
+               <item name="source" xsi:type="string">message</item>
+               <item name="dataScope" xsi:type="string">message</item>
+               <item name="additionalClasses" xsi:type="array">
+                  <item name="aw-message" xsi:type="boolean">true</item>
+               </item>
+               <item name="validation" xsi:type="array">
+                  <item name="required-entry" xsi:type="boolean">true</item>
+               </item>
+            </item>
+         </argument>
+      </field>
+      <field formElement="imageUploader" name="notification_image" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">APP</item>
+                </item>
+            </argument>
+            <settings>
+                <elementTmpl>ui/form/element/uploader/image</elementTmpl>
+                <dataType>string</dataType>
+                <label translate="true">Upload Image</label>
+                <visible>true</visible>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <imageUploader>
+                    <settings>
+                        <uploaderConfig>
+                            <param xsi:type="url" name="url" path="mobilepushnotification/pushnotification_notificationimage/upload"/>
+                        </uploaderConfig>
+                        <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
+                        <openDialogTitle>Media Gallery</openDialogTitle>
+                        <allowedExtensions>jpg jpeg gif png</allowedExtensions>
+                        <maxFileSize>1388608</maxFileSize>
+                    </settings>
+                </imageUploader>
+            </formElements>
+        </field>
+         <field name="schedule_time" formElement="select">
+            <argument name="data" xsi:type="array">
+               <item name="options" xsi:type="object">Aheadworks\MobilePushNotification\Model\Source\ScheduleTime</item>
+               <item name="config" xsi:type="array">
+                  <item name="label" xsi:type="string" translate="true">Choose when to send</item>
+                  <item name="dataType" xsi:type="string">text</item>
+                  <item name="formElement" xsi:type="string">select</item>
+                  <item name="component" xsi:type="string">Magento_Ui/js/form/element/select</item>
+                  <item name="template" xsi:type="string">ui/form/field</item>
+               </item>
+            </argument>
+         </field>
+        <field name="open_page" formElement="select">
+         <argument name="data" xsi:type="array">
+               <item name="options" xsi:type="object">Aheadworks\MobilePushNotification\Model\Source\OpenPageOptions</item>
+               <item name="config" xsi:type="array">
+                  <item name="label" xsi:type="string" translate="true">Choose when to send</item>
+                  <item name="dataType" xsi:type="string">text</item>
+                  <item name="formElement" xsi:type="string">select</item>
+                  <item name="component" xsi:type="string">Magento_Ui/js/form/element/select</item>
+                  <item name="template" xsi:type="string">ui/form/field</item>
+               </item>
+            </argument>
+        </field>
+   </fieldset>
+</form>
