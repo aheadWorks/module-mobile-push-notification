@@ -8,6 +8,7 @@ use Aheadworks\MobilePushNotification\Model\PushNotificationFactory;
 use Aheadworks\MobilePushNotification\Model\Upload\Info;
 use Magento\Framework\App\Action\Action;
 use Aheadworks\MobilePushNotification\Model\Upload\UploaderPath;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Save push notification data
@@ -34,11 +35,17 @@ class Save extends Action
      */
     private $uploaderPath;
 
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
    /**
     * @param NotificationRequest $notificationRequest
     * @param PushNotificationFactory $pushnotificationFactory
     * @param Info $infoImage
     * @param UploaderPath $uploaderPath
+    * @param StoreManagerInterface $storeManager
     * @param Context $context
     */
     public function __construct(
@@ -46,12 +53,14 @@ class Save extends Action
         PushNotificationFactory $pushnotificationFactory,
         Info $infoImage,
         UploaderPath $uploaderPath,
+        StoreManagerInterface $storeManager,
         Context $context
     ) {
         $this->notificationRequest = $notificationRequest;
         $this->pushnotificationFactory = $pushnotificationFactory;
         $this->infoImage = $infoImage;
         $this->uploaderPath = $uploaderPath;
+        $this->storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -63,7 +72,7 @@ class Save extends Action
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+        $resultRedirect->setUrl($this->_redirect->getRefererUrl()); // phpcs:ignore
         $data = $this->getRequest()->getPostValue();
         
         if (!empty($data['message_title']) && !empty($data['message'])) {
@@ -71,9 +80,18 @@ class Save extends Action
             $message = $data['message'];
 
             if (!empty($data['notification_image'])) {
-                $imgName = $data['notification_image']['0']['file_name'];
-                $data['notification_image'] = $this->uploaderPath->getPathName().'/'.$imgName;
-                $notificationImageUrl = $this->infoImage->getMediaUrl($imgName);
+                if (isset($data['notification_image']['0']['path'])) {
+                    $imgName = $data['notification_image']['0']['name'];
+                    $data['notification_image'] = $this->uploaderPath->getPathName().'/'.$imgName;
+                    $notificationImageUrl = $this->infoImage->getMediaUrl($imgName);
+                } else {
+                    $imgName = $data['notification_image']['0']['url'];
+                    $data['notification_image'] = $imgName;
+                    $currentUrl = $this->storeManager->getStore()
+                    ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+                    $newcurrentUrl = rtrim($currentUrl, '/');
+                    $notificationImageUrl = $newcurrentUrl.$imgName;
+                }
             } else {
                 $notificationImageUrl = '';
             }
