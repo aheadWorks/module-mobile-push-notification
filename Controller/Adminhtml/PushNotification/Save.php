@@ -87,7 +87,7 @@ class Save extends Action
                     $data['notification_image'] = $imgName;
                     $currentUrl = $this->storeManager->getStore()
                     ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
-                    $notificationImageUrl = $currentUrl.$imgName;
+                    $notificationImageUrl = $currentUrl . $imgName;
                 } else {
                     $notificationImageUrl = '';
                 }
