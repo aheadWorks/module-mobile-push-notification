@@ -16,6 +16,9 @@ use Magento\Framework\Controller\ResultFactory;
  */
 class Save extends Action
 {
+    private const SUCCESS = "success";
+    private const NOTOKEN = "notoken";
+
    /**
     * @var NotificationRequest
     */
@@ -85,6 +88,7 @@ class Save extends Action
                 } elseif (isset($data['notification_image']['0']['url'])) {
                     $imgName = $data['notification_image']['0']['url'];
                     $data['notification_image'] = $imgName;
+                    
                     $currentUrl = $this->storeManager->getStore()
                     ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
                     $notificationImageUrl = $currentUrl . $imgName;
@@ -102,10 +106,10 @@ class Save extends Action
                 $notificationImageUrl
             );
 
-            if ($sendNotification == "success") {
+            if ($sendNotification == self::SUCCESS) {
                 $notificationModel->setData($data)->save();
                 $this->messageManager->addSuccessMessage(__('Notification send successfully'));
-            } elseif ($sendNotification == "notoken") {
+            } elseif ($sendNotification == self::NOTOKEN) {
                 $this->messageManager->addErrorMessage(__('There is no mobile device token found.'));
             } else {
                 $this->messageManager->addErrorMessage(__('Something went wrong while sending the notification'));
