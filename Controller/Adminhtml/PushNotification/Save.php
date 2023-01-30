@@ -88,9 +88,7 @@ class Save extends Action
                 } elseif (isset($data['notification_image']['0']['url'])) {
                     $imgName = $data['notification_image']['0']['url'];
                     $data['notification_image'] = $imgName;
-                    
-                    $currentUrl = $this->storeManager->getStore()
-                    ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+                    $currentUrl = $this->storeManager->getStore()->getBaseUrl();
                     $notificationImageUrl = $currentUrl . $imgName;
                 } else {
                     $notificationImageUrl = '';
