@@ -86,7 +86,7 @@
             </item>
          </argument>
       </field>
-      <field formElement="imageUploader" name="notification_image" sortOrder="40">
+      <field formElement="imageUploader" name="notification_images" sortOrder="40">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">APP</item>
