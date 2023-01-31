@@ -69,9 +69,7 @@ class Info
      */
     public function getMediaUrl($imagename)
     {
-        $path = $this->uploaderPath->getPathName() . '/' . $imagename;
-        $imageUrl = $this->urlBuilder
-            ->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]) . $path;
+        $imageUrl = $this->urlBuilder->getBaseUrl() . $imagename;
         return $imageUrl;
     }
 }

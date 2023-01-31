@@ -112,7 +112,6 @@ class NotificationRequest
     {
         $AwMobileDeviceToken = [];
         $searchCriteria = $this->searchCriteriaBuilder->addFilter('aw_mobile_device_token', "", 'neq')->create();
-        $searchCriteria = $this->searchCriteriaBuilder->create();
         $customerList = $this->customerRepository->getList($searchCriteria)->getItems();
         foreach ($customerList as $customerListValue) {
             $customAttribute = $customerListValue->getCustomAttributes();

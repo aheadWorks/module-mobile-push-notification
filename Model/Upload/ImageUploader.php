@@ -3,6 +3,7 @@ namespace Aheadworks\MobilePushNotification\Model\Upload;
 
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Aheadworks\MobilePushNotification\Model\Upload\UploaderPath;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  *  Upload image for push notification
@@ -49,16 +50,17 @@ class ImageUploader
     {
         try {
             $result = ['file' => '', 'size' => '', 'name' => '', 'path' => '', 'type' => ''];
+            $uploaderPath = $this->uploaderPath->getPathName();
             $mediaDirectory = $this->info
                 ->getMediaDirectory()
-                ->getAbsolutePath($this->uploaderPath->getPathName());
+                ->getAbsolutePath($uploaderPath);
             $uploader = $this->uploaderFactory->create(['fileId' => $fileId]);
             $uploader
                 ->setAllowRenameFiles(true)
                 ->setAllowedExtensions($this->getAllowedFileExtensions());
             $result = array_intersect_key($uploader->save($mediaDirectory), $result);
 
-            $result['url'] = $this->info->getMediaUrl($result['file']);
+            $result['url'] = '/'. DirectoryList::MEDIA. '/' . $uploaderPath . '/' . $result['file'];
             $result['file_name'] = $result['file'];
             $result['id'] = base64_encode($result['file_name']);
         } catch (\Exception $e) {
