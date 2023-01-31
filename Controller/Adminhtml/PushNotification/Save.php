@@ -80,23 +80,12 @@ class Save extends Action
         if (!empty($data['message_title']) && !empty($data['message'])) {
             $messageTitle = $data['message_title'];
             $message = $data['message'];
-            if (!empty($data['notification_image'])) {
-                if (isset($data['notification_image']['0']['path'])) {
-                    $imgName = $data['notification_image']['0']['name'];
-                    $data['notification_image'] = $this->uploaderPath->getPathName().'/'.$imgName;
-                    $notificationImageUrl = $this->infoImage->getMediaUrl($imgName);
-                } elseif (isset($data['notification_image']['0']['url'])) {
-                    $imgName = $data['notification_image']['0']['url'];
-                    $data['notification_image'] = $imgName;
-                    $currentUrl = $this->storeManager->getStore()->getBaseUrl();
-                    $notificationImageUrl = $currentUrl . $imgName;
-                } else {
-                    $notificationImageUrl = '';
-                }
+            if (!empty($data['notification_images'])) {
+                $imgUrl = $data['notification_images']['0']['url'];
+                $notificationImageUrl = $this->infoImage->getMediaUrl($imgUrl);
             } else {
                 $notificationImageUrl = '';
             }
-
             $notificationModel = $this->pushnotificationFactory->create();
             $sendNotification = $this->notificationRequest->sendNotification(
                 $messageTitle,

@@ -43,7 +43,7 @@ class Upload extends AbstractAction implements HttpPostActionInterface
      */
     public function execute()
     {
-        $imageId = $this->_request->getParam('param_name', 'notification_image');
+        $imageId = $this->_request->getParam('param_name', 'notification_images');
 
         try {
             $result = $this->imageUploader->saveFileToTmpDir($imageId);
