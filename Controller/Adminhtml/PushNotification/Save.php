@@ -7,8 +7,6 @@ use Magento\Backend\App\Action\Context;
 use Aheadworks\MobilePushNotification\Model\PushNotificationFactory;
 use Aheadworks\MobilePushNotification\Model\Upload\Info;
 use Magento\Framework\App\Action\Action;
-use Aheadworks\MobilePushNotification\Model\Upload\UploaderPath;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Controller\ResultFactory;
 
 /**
@@ -34,37 +32,21 @@ class Save extends Action
      */
     private $infoImage;
 
-    /**
-     * @var UploaderPath
-     */
-    private $uploaderPath;
-
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
    /**
     * @param NotificationRequest $notificationRequest
     * @param PushNotificationFactory $pushnotificationFactory
     * @param Info $infoImage
-    * @param UploaderPath $uploaderPath
-    * @param StoreManagerInterface $storeManager
     * @param Context $context
     */
     public function __construct(
         NotificationRequest $notificationRequest,
         PushNotificationFactory $pushnotificationFactory,
         Info $infoImage,
-        UploaderPath $uploaderPath,
-        StoreManagerInterface $storeManager,
         Context $context
     ) {
         $this->notificationRequest = $notificationRequest;
         $this->pushnotificationFactory = $pushnotificationFactory;
         $this->infoImage = $infoImage;
-        $this->uploaderPath = $uploaderPath;
-        $this->storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -81,8 +63,8 @@ class Save extends Action
             $messageTitle = $data['message_title'];
             $message = $data['message'];
             if (!empty($data['notification_images'])) {
-                $imgUrl = $data['notification_images']['0']['url'];
-                $notificationImageUrl = $this->infoImage->getMediaUrl($imgUrl);
+                $imgPath = $data['notification_images']['0']['url'];
+                $notificationImageUrl = $this->infoImage->getMediaUrl($imgPath);
             } else {
                 $notificationImageUrl = '';
             }
